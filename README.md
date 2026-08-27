@@ -2,227 +2,115 @@
 
 > Infrastructure built for your next move.
 
-**Legacy Hosting** is the commerce & infrastructure platform of **Maleng Legacy Group**.
-
-It provides domains, web hosting, cloud VPS and dedicated servers through a modern, data-driven storefront and a dedicated customer control plane.
+Commerce & infrastructure platform for **Maleng Legacy Group**.
 
 | Surface | Domain | Purpose |
 |---------|--------|---------|
-| **Storefront** | [hosting.malenglegacy.co.za](https://hosting.malenglegacy.co.za) | Self-service commerce |
-| **Cloud Portal** | [cloud.malenglegacy.co.za](https://cloud.malenglegacy.co.za) | Customer control plane |
-| **Corporate** | [tech.malenglegacy.co.za](https://tech.malenglegacy.co.za) | Enterprise / consulting |
+| **Storefront** | hosting.malenglegacy.co.za | Self-service commerce |
+| **Cloud Portal** | cloud.malenglegacy.co.za | Customer control plane |
+| **Corporate** | tech.malenglegacy.co.za | Enterprise / consulting |
 
 ---
 
-## Architecture at a Glance
+## What is implemented (runs today)
+
+```
+legacy-hosting-platform/
+│
+├── catalog/
+│   ├── hosting-catalog.json              ← commercial source of truth
+│   └── schemas/hosting-catalog.schema.json
+│
+├── packages/
+│   ├── types/            ← shared TS types (mirror the schema)
+│   ├── catalog-sdk/       ← loadCatalog(), validation, query helpers
+│   ├── pricing/           ← buildQuote() / buildDomainQuote() — ONLY place totals are computed
+│   └── provisioning/      ← ProviderRouter (Hetzner vs Contabo vs future)
+│
+├── apps/
+│   ├── api/src/routes/checkout.ts   ← wires catalog → pricing → provider router
+│   └── storefront/                  ← Next.js commerce UI (in progress)
+│
+└── scripts/
+    ├── validate-catalog.ts   ← CI: fails if catalog is malformed
+    └── smoke-test.ts         ← end-to-end: pricing + provider routing
+```
+
+---
+
+## Design decisions enforced by code
+
+1. **Catalog is data, not code.** Adding a VPS tier or TLD = edit `hosting-catalog.json` only.
+2. **Schema validation is load-bearing.** `loadCatalog()` throws on malformed data.
+3. **Provider identity never leaks to the customer.** Checkout response omits Hetzner/Contabo.
+4. **Provider routing is pluggable.** `ProviderRouter` takes a health source; adapters plug in later.
+5. **Pricing math lives in one module.** `packages/pricing` is the only place that sums totals.
+6. **Lifecycle states are real types** — `isPurchasable()` controls "Currently unavailable".
+
+---
+
+## Running it
+
+```bash
+git clone https://github.com/Tinyu01/legacy-hosting-platform.git
+cd legacy-hosting-platform
+
+npm install
+
+# Validate the commercial catalogue
+npm run validate:catalog
+
+# Exercise checkout + pricing + provider router
+npm run smoke
+```
+
+Expected smoke output includes a VPS quote with add-ons and a domain registration quote.
+
+---
+
+## Architecture
 
 ```
 CUSTOMER
    │
    ▼
-Legacy Hosting Storefront (Next.js)
+Storefront (Next.js)
    │
    ▼
-Legacy Hosting API (NestJS)
+API / checkout handler
    │
-   ├── FOSSBilling (billing / CRM)
-   ├── Provider Router
-   │     ├── Hetzner
-   │     ├── Contabo
-   │     ├── Name.com
-   │     ├── HostAfrica / AfricanHost
-   │     └── Local SA Infrastructure
-   └── Cloud Portal (Next.js)
-```
-
-The **hosting-catalog.json** is the single source of truth for all commercial products.
-The frontend never talks directly to any provider.
-
----
-
-## Monorepo Structure
-
-```
-legacy-hosting-platform/
-│
-├── apps/
-│   ├── storefront/          # Next.js commerce site
-│   ├── cloud-portal/        # Customer control plane
-│   └── api/                 # NestJS platform API
-│
-├── packages/
-│   ├── catalog/             # Catalogue SDK + validation
-│   ├── pricing/             # Pricing engine
-│   ├── ui/                  # Shared design system
-│   ├── auth/                # Auth utilities
-│   └── types/               # Shared TypeScript types
-│
-├── integrations/
-│   ├── fossbilling/
-│   ├── namecom/
-│   ├── hetzner/
-│   ├── contabo/
-│   ├── cpanel/
-│   └── hestia/
-│
-├── catalog/
-│   ├── hosting-catalog.json
-│   └── schemas/
-│       └── hosting-catalog.schema.json
-│
-├── docs/
-│   ├── architecture/
-│   ├── adr/
-│   ├── api/
-│   ├── deployment/
-│   ├── security/
-│   └── operations/
-│
-├── infrastructure/
-│   ├── docker/
-│   └── terraform/
-│
-├── .github/
-│   └── workflows/
-│
-├── package.json            # pnpm workspace root
-├── pnpm-workspace.yaml
-├── turbo.json
-├── .env.example
-├── docker-compose.yml
-├── README.md
-├── CONTRIBUTING.md
-├── SECURITY.md
-└── LICENSE
+   ├── catalog-sdk  → hosting-catalog.json
+   ├── pricing      → buildQuote()
+   └── ProviderRouter
+         ├── Hetzner
+         ├── Contabo
+         ├── Name.com
+         └── HostAfrica / future
 ```
 
 ---
 
-## Technology Baseline
-
-| Layer | Technology |
-|-------|------------|
-| Storefront | Next.js 15 + TypeScript + Tailwind |
-| Cloud Portal | Next.js 15 + TypeScript + Tailwind |
-| API | NestJS + TypeScript |
-| Database | PostgreSQL |
-| Cache / Queues | Redis |
-| Billing | FOSSBilling (headless) |
-| Catalogue | JSON Schema validated |
-| Monorepo | pnpm + Turborepo |
-| CI/CD | GitHub Actions |
-| Local Dev | Docker Compose |
-| Testing | Vitest + Playwright |
-
----
-
-## Getting Started (Local Development)
-
-```bash
-# Prerequisites
-node >= 22
-pnpm >= 9
-docker & docker-compose
-
-# Clone
-git clone https://github.com/Tinyu01/legacy-hosting-platform.git
-cd legacy-hosting-platform
-
-# Install
-pnpm install
-
-# Environment
-cp .env.example .env
-
-# Start infrastructure
-docker compose up -d
-
-# Run all apps in dev mode
-pnpm dev
-```
-
-| Service | URL |
-|---------|-----|
-| Storefront | http://localhost:3000 |
-| Cloud Portal | http://localhost:3001 |
-| API | http://localhost:4000 |
-| API Docs | http://localhost:4000/docs |
-
----
-
-## Catalogue
-
-All commercial products live in:
-
-```
-catalog/hosting-catalog.json
-```
-
-Validated against:
-
-```
-catalog/schemas/hosting-catalog.schema.json
-```
-
-Never put provider credentials or internal cost data in the public catalogue.
-
----
-
-## Security Baseline
-
-- Provider API tokens live only in environment variables / secret manager
-- No secrets in Git
-- Catalogue schema prevents accidental exposure of internal fields
-- All external integrations go through dedicated adapter packages
-- Rate limiting and authentication on the API layer
-
-See [SECURITY.md](./SECURITY.md) for the full policy.
-
----
-
-## Documentation
-
-| Document | Location |
-|----------|----------|
-| Architecture Overview | [docs/architecture/overview.md](./docs/architecture/overview.md) |
-| Architecture Decision Records | [docs/adr/](./docs/adr/) |
-| API Contract | [docs/api/](./docs/api/) |
-| Deployment | [docs/deployment/](./docs/deployment/) |
-| Security | [docs/security/](./docs/security/) |
-| Operations | [docs/operations/](./docs/operations/) |
-
----
-
-## Roadmap (High Level)
+## Next phases
 
 | Phase | Focus |
 |-------|-------|
-| **M001** | Repository & Architecture Foundation ✅ |
-| **Phase 1** | Storefront (Domains + Web Hosting + VPS configurator) |
-| **Phase 2** | Backend API + FOSSBilling + Payment abstraction |
-| **Phase 3** | Provisioning (Name.com, Hetzner, Contabo, cPanel/Hestia) |
-| **Phase 4** | Cloud Portal |
+| **Now** | Engineered foundation (this scaffold) ✅ |
+| **Phase 1** | Next.js storefront (Domains, Web Hosting, VPS configurator) |
+| **Phase 2** | Real payment gateways + FOSSBilling mapping |
+| **Phase 3** | Live provider adapters (Hetzner, Contabo, Name.com) |
+| **Phase 4** | Cloud portal (console, metrics, DNS, billing) |
 
 ---
 
-## Brand Architecture
+## Brand
 
 ```
 MALENG LEGACY GROUP
 │
-├── Maleng Legacy Tech          → tech.malenglegacy.co.za
-│   (Enterprise / Consulting)
-│
-└── Legacy Hosting              → hosting.malenglegacy.co.za
-    (Product Commerce Platform)
-    └── Client Cloud Portal    → cloud.malenglegacy.co.za
+├── Maleng Legacy Tech     → tech.malenglegacy.co.za
+└── Legacy Hosting         → hosting.malenglegacy.co.za
+    └── Client Portal      → cloud.malenglegacy.co.za
 ```
-
----
-
-## Licence
-
-Proprietary — © 2026 Maleng Legacy Group. All rights reserved.
 
 ---
 
