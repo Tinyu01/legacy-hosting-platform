@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className="flex flex-col">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-slate-800 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
         <div className="mx-auto max-w-6xl px-6 py-24 text-center">
@@ -17,16 +19,23 @@ export default function HomePage() {
           </p>
 
           {/* Domain search teaser */}
-          <div className="mx-auto flex max-w-xl flex-col gap-3 sm:flex-row">
+          <form
+            action="/domains"
+            className="mx-auto flex max-w-xl flex-col gap-3 sm:flex-row"
+          >
             <input
               type="text"
+              name="q"
               placeholder="yourbusiness.co.za"
               className="flex-1 rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
             />
-            <button className="rounded-lg bg-sky-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-sky-400">
+            <button
+              type="submit"
+              className="rounded-lg bg-sky-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-sky-400"
+            >
               Search Domain
             </button>
-          </div>
+          </form>
         </div>
       </section>
 
@@ -54,11 +63,11 @@ export default function HomePage() {
             },
             {
               title: "Dedicated",
-              description: "Own your infrastructure",
-              href: "/dedicated",
+              description: "Coming soon",
+              href: "/cloud-vps",
             },
           ].map((item) => (
-            <a
+            <Link
               key={item.title}
               href={item.href}
               className="group rounded-xl border border-slate-800 bg-slate-900/50 p-6 transition hover:border-sky-500/50 hover:bg-slate-900"
@@ -67,7 +76,7 @@ export default function HomePage() {
                 {item.title}
               </h3>
               <p className="text-sm text-slate-400">{item.description}</p>
-            </a>
+            </Link>
           ))}
         </div>
       </section>
@@ -100,13 +109,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <footer className="border-t border-slate-800 py-8 text-center text-sm text-slate-500">
-        © 2026 Maleng Legacy Group ·{" "}
-        <a href="https://tech.malenglegacy.co.za" className="hover:text-sky-400">
-          Corporate
-        </a>
-      </footer>
     </main>
   );
 }
