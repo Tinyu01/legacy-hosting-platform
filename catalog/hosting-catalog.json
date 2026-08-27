@@ -124,9 +124,7 @@
         "type": "router",
         "eligibleProviders": ["namecom"]
       },
-      "portal": {
-        "dns": true
-      },
+      "portal": { "dns": true },
       "status": "active"
     },
     {
@@ -171,8 +169,190 @@
         "type": "router",
         "eligibleProviders": ["namecom"]
       },
-      "portal": {
-        "dns": true
+      "portal": { "dns": true },
+      "status": "active"
+    },
+    {
+      "id": "domain-net",
+      "category": "domains",
+      "type": "domain",
+      "name": ".net Domain",
+      "slug": "net",
+      "tld": ".net",
+      "description": "Classic .net domain for networks and technology brands.",
+      "pricing": {
+        "currency": "ZAR",
+        "registration": 269,
+        "transfer": 269,
+        "renewal": 269
+      },
+      "billing": {
+        "period": "year",
+        "autoRenew": true,
+        "engine": "fossbilling",
+        "mapping": {
+          "productType": "domain",
+          "externalProductId": "LEGACY-DOM-NET"
+        }
+      },
+      "operations": {
+        "availabilityCheck": true,
+        "registration": true,
+        "transfer": true,
+        "renewal": true,
+        "dnsManagement": true
+      },
+      "requirements": {
+        "authCodeForTransfer": true
+      },
+      "providerStrategy": {
+        "type": "router",
+        "eligibleProviders": ["namecom"]
+      },
+      "status": "active"
+    },
+    {
+      "id": "shared-starter",
+      "category": "web-hosting",
+      "type": "shared-hosting",
+      "name": "Starter",
+      "slug": "starter",
+      "description": "Perfect for personal sites, blogs and small projects.",
+      "marketing": {
+        "label": "Entry",
+        "displayOrder": 1
+      },
+      "pricing": {
+        "currency": "ZAR",
+        "monthly": 79,
+        "annual": 790
+      },
+      "billing": {
+        "cycle": ["monthly", "annual"],
+        "autoRenew": true,
+        "engine": "fossbilling",
+        "mapping": {
+          "productType": "hosting",
+          "externalProductId": "LEGACY-HOST-STARTER"
+        }
+      },
+      "resources": {
+        "storageGB": 10,
+        "websites": 1,
+        "databases": 2,
+        "mailboxes": 5
+      },
+      "features": [
+        "NVMe storage",
+        "Free SSL",
+        "DNS management",
+        "Daily backups",
+        "Email hosting"
+      ],
+      "controlPanel": "hestia",
+      "providerStrategy": {
+        "type": "router",
+        "eligibleProviders": ["hostafrica", "africanhost"]
+      },
+      "portal": { "backups": true, "dns": true },
+      "status": "active"
+    },
+    {
+      "id": "business-pro",
+      "category": "web-hosting",
+      "type": "shared-hosting",
+      "name": "Business Pro",
+      "slug": "business-pro",
+      "description": "Reliable hosting for growing businesses and agencies.",
+      "marketing": {
+        "label": "Most Popular",
+        "badge": "Best Value",
+        "featured": true,
+        "displayOrder": 2
+      },
+      "pricing": {
+        "currency": "ZAR",
+        "monthly": 149,
+        "annual": 1490
+      },
+      "billing": {
+        "cycle": ["monthly", "annual"],
+        "autoRenew": true,
+        "engine": "fossbilling",
+        "mapping": {
+          "productType": "hosting",
+          "externalProductId": "LEGACY-HOST-BUSINESS-PRO"
+        }
+      },
+      "resources": {
+        "storageGB": 25,
+        "websites": 5,
+        "databases": 10,
+        "mailboxes": 25
+      },
+      "features": [
+        "NVMe storage",
+        "Free SSL",
+        "DNS management",
+        "Daily backups",
+        "Email hosting",
+        "Control panel",
+        "Staging environments"
+      ],
+      "controlPanel": "cpanel",
+      "providerStrategy": {
+        "type": "router",
+        "eligibleProviders": ["hostafrica", "africanhost"]
+      },
+      "portal": { "backups": true, "dns": true },
+      "status": "active"
+    },
+    {
+      "id": "managed-wordpress",
+      "category": "web-hosting",
+      "type": "managed-wordpress",
+      "name": "Managed WordPress",
+      "slug": "managed-wordpress",
+      "description": "Optimised WordPress hosting with automatic updates, security and performance.",
+      "marketing": {
+        "label": "WordPress",
+        "badge": "Recommended",
+        "featured": true,
+        "displayOrder": 3
+      },
+      "pricing": {
+        "currency": "ZAR",
+        "monthly": 249,
+        "annual": 2490
+      },
+      "billing": {
+        "cycle": ["monthly", "annual"],
+        "autoRenew": true,
+        "engine": "fossbilling",
+        "mapping": {
+          "productType": "hosting",
+          "externalProductId": "LEGACY-HOST-WP"
+        }
+      },
+      "resources": {
+        "storageGB": 40,
+        "websites": 3,
+        "databases": 10,
+        "mailboxes": 15
+      },
+      "features": [
+        "NVMe storage",
+        "Free SSL",
+        "Automatic WordPress updates",
+        "Daily backups",
+        "Malware scanning",
+        "Staging",
+        "CDN ready"
+      ],
+      "controlPanel": "cpanel",
+      "providerStrategy": {
+        "type": "router",
+        "eligibleProviders": ["hostafrica"]
       },
       "status": "active"
     },
@@ -192,13 +372,8 @@
       "resources": {
         "vcpu": 2,
         "ramGB": 4,
-        "storage": {
-          "sizeGB": 80,
-          "type": "NVMe"
-        },
-        "traffic": {
-          "includedTB": 4
-        },
+        "storage": { "sizeGB": 80, "type": "NVMe" },
+        "traffic": { "includedTB": 4 },
         "ipv4": 1,
         "ipv6": true
       },
@@ -216,10 +391,7 @@
           "externalProductId": "LEGACY-VPS-001"
         }
       },
-      "deployment": {
-        "instant": true,
-        "estimatedMinutes": 8
-      },
+      "deployment": { "instant": true, "estimatedMinutes": 8 },
       "availableLocations": ["za-johannesburg", "eu"],
       "operatingSystems": ["ubuntu-24-04", "debian-13", "almalinux-10"],
       "features": [
@@ -262,13 +434,8 @@
       "resources": {
         "vcpu": 4,
         "ramGB": 8,
-        "storage": {
-          "sizeGB": 160,
-          "type": "NVMe"
-        },
-        "traffic": {
-          "includedTB": 8
-        },
+        "storage": { "sizeGB": 160, "type": "NVMe" },
+        "traffic": { "includedTB": 8 },
         "ipv4": 1,
         "ipv6": true
       },
@@ -286,10 +453,7 @@
           "externalProductId": "LEGACY-VPS-002"
         }
       },
-      "deployment": {
-        "instant": true,
-        "estimatedMinutes": 8
-      },
+      "deployment": { "instant": true, "estimatedMinutes": 8 },
       "availableLocations": ["za-johannesburg", "eu"],
       "operatingSystems": ["ubuntu-24-04", "debian-13", "almalinux-10"],
       "features": [
@@ -317,22 +481,28 @@
       "status": "active"
     },
     {
-      "id": "business-pro",
-      "category": "web-hosting",
-      "type": "shared-hosting",
-      "name": "Business Pro",
-      "slug": "business-pro",
-      "description": "Reliable hosting for growing businesses and agencies.",
+      "id": "vps-3",
+      "category": "cloud-vps",
+      "type": "vps",
+      "name": "Legacy VPS 3",
+      "slug": "vps-3",
+      "description": "High-performance virtual server for databases, e-commerce and multi-service stacks.",
       "marketing": {
-        "label": "Most Popular",
-        "badge": "Best Value",
-        "featured": true,
-        "displayOrder": 2
+        "label": "Performance",
+        "displayOrder": 3
+      },
+      "resources": {
+        "vcpu": 6,
+        "ramGB": 16,
+        "storage": { "sizeGB": 320, "type": "NVMe" },
+        "traffic": { "includedTB": 12 },
+        "ipv4": 1,
+        "ipv6": true
       },
       "pricing": {
         "currency": "ZAR",
-        "monthly": 149,
-        "annual": 1490
+        "monthly": 749,
+        "annual": 8099
       },
       "billing": {
         "cycle": ["monthly", "annual"],
@@ -340,31 +510,93 @@
         "engine": "fossbilling",
         "mapping": {
           "productType": "hosting",
-          "externalProductId": "LEGACY-HOST-BUSINESS-PRO"
+          "externalProductId": "LEGACY-VPS-003"
         }
       },
-      "resources": {
-        "storageGB": 25,
-        "websites": 5,
-        "databases": 10,
-        "mailboxes": 25
-      },
+      "deployment": { "instant": true, "estimatedMinutes": 10 },
+      "availableLocations": ["za-johannesburg", "eu"],
+      "operatingSystems": ["ubuntu-24-04", "debian-13", "almalinux-10"],
       "features": [
         "NVMe storage",
-        "Free SSL",
-        "DNS management",
-        "Daily backups",
-        "Email hosting",
-        "Control panel"
+        "IPv4",
+        "IPv6",
+        "Private networking",
+        "Cloud firewall",
+        "Snapshots"
       ],
-      "controlPanel": "cpanel",
       "providerStrategy": {
         "type": "router",
-        "eligibleProviders": ["hostafrica", "africanhost"]
+        "eligibleProviders": ["hetzner", "contabo"]
       },
       "portal": {
-        "backups": true,
-        "dns": true
+        "console": true,
+        "restart": true,
+        "shutdown": true,
+        "reinstall": true,
+        "resize": true,
+        "snapshots": true,
+        "firewall": true,
+        "metrics": true
+      },
+      "status": "active"
+    },
+    {
+      "id": "vps-4",
+      "category": "cloud-vps",
+      "type": "vps",
+      "name": "Legacy VPS 4",
+      "slug": "vps-4",
+      "description": "High-resource cloud instance for demanding applications and concurrent workloads.",
+      "marketing": {
+        "label": "Scale",
+        "displayOrder": 4
+      },
+      "resources": {
+        "vcpu": 8,
+        "ramGB": 32,
+        "storage": { "sizeGB": 640, "type": "NVMe" },
+        "traffic": { "includedTB": 20 },
+        "ipv4": 1,
+        "ipv6": true
+      },
+      "pricing": {
+        "currency": "ZAR",
+        "monthly": 1499,
+        "annual": 16199
+      },
+      "billing": {
+        "cycle": ["monthly", "annual"],
+        "autoRenew": true,
+        "engine": "fossbilling",
+        "mapping": {
+          "productType": "hosting",
+          "externalProductId": "LEGACY-VPS-004"
+        }
+      },
+      "deployment": { "instant": true, "estimatedMinutes": 12 },
+      "availableLocations": ["za-johannesburg", "eu"],
+      "operatingSystems": ["ubuntu-24-04", "debian-13", "almalinux-10"],
+      "features": [
+        "NVMe storage",
+        "IPv4",
+        "IPv6",
+        "Private networking",
+        "Cloud firewall",
+        "Snapshots"
+      ],
+      "providerStrategy": {
+        "type": "router",
+        "eligibleProviders": ["hetzner", "contabo"]
+      },
+      "portal": {
+        "console": true,
+        "restart": true,
+        "shutdown": true,
+        "reinstall": true,
+        "resize": true,
+        "snapshots": true,
+        "firewall": true,
+        "metrics": true
       },
       "status": "active"
     }
@@ -376,14 +608,12 @@
       "name": "Daily Backup",
       "type": "backup",
       "description": "Automated daily snapshots with configurable retention.",
-      "pricing": {
-        "currency": "ZAR",
-        "monthly": 79
-      },
+      "pricing": { "currency": "ZAR", "monthly": 79 },
       "features": [
         "Daily snapshots",
         "7-day retention",
-        "One-click restore"
+        "One-click restore",
+        "Offsite storage"
       ],
       "compatibleCategories": ["cloud-vps", "dedicated-servers"],
       "status": "active"
@@ -393,17 +623,25 @@
       "name": "Managed Service",
       "type": "management",
       "description": "Upgrade any VPS to fully managed by Legacy engineers.",
-      "pricing": {
-        "currency": "ZAR",
-        "monthly": 599
-      },
+      "pricing": { "currency": "ZAR", "monthly": 599 },
       "features": [
         "OS updates & security patches",
         "Monitoring & alerting",
         "Firewall management",
+        "Performance reviews",
         "Priority technical support"
       ],
       "compatibleCategories": ["cloud-vps"],
+      "status": "active"
+    },
+    {
+      "id": "extra-ipv4",
+      "name": "Additional IPv4",
+      "type": "network",
+      "description": "Extra public IPv4 address.",
+      "pricing": { "currency": "ZAR", "monthly": 49 },
+      "features": ["Dedicated IPv4", "Instant assignment"],
+      "compatibleCategories": ["cloud-vps", "dedicated-servers"],
       "status": "active"
     }
   ],
@@ -469,18 +707,8 @@
   ],
 
   "controlPanels": [
-    {
-      "id": "cpanel",
-      "name": "cPanel",
-      "slug": "cpanel",
-      "status": "active"
-    },
-    {
-      "id": "hestia",
-      "name": "HestiaCP",
-      "slug": "hestia",
-      "status": "active"
-    }
+    { "id": "cpanel", "name": "cPanel", "slug": "cpanel", "status": "active" },
+    { "id": "hestia", "name": "HestiaCP", "slug": "hestia", "status": "active" }
   ],
 
   "providers": [
@@ -515,38 +743,22 @@
       "adapter": "hostafrica",
       "environmentVariable": "HOSTAFRICA_API_CREDENTIALS",
       "status": "active"
+    },
+    {
+      "id": "africanhost",
+      "name": "AfricanHost",
+      "type": "hosting",
+      "adapter": "africanhost",
+      "environmentVariable": "AFRICANHOST_API_CREDENTIALS",
+      "status": "active"
     }
   ],
 
   "paymentMethods": [
-    {
-      "id": "payfast",
-      "name": "PayFast",
-      "currency": "ZAR",
-      "type": "gateway",
-      "status": "active"
-    },
-    {
-      "id": "ozow",
-      "name": "Ozow",
-      "currency": "ZAR",
-      "type": "gateway",
-      "status": "active"
-    },
-    {
-      "id": "yoco",
-      "name": "Yoco",
-      "currency": "ZAR",
-      "type": "gateway",
-      "status": "active"
-    },
-    {
-      "id": "eft",
-      "name": "Bank Transfer (EFT)",
-      "currency": "ZAR",
-      "type": "manual",
-      "status": "active"
-    }
+    { "id": "payfast", "name": "PayFast", "currency": "ZAR", "type": "gateway", "status": "active" },
+    { "id": "ozow", "name": "Ozow", "currency": "ZAR", "type": "gateway", "status": "active" },
+    { "id": "yoco", "name": "Yoco", "currency": "ZAR", "type": "gateway", "status": "active" },
+    { "id": "eft", "name": "Bank Transfer (EFT)", "currency": "ZAR", "type": "manual", "status": "active" }
   ],
 
   "policies": {
