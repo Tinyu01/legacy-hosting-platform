@@ -1,0 +1,11 @@
+{
+  "name": "@legacy-hosting/catalog-sdk",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@legacy-hosting/types": "*",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}
