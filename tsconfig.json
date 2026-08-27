@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@legacy-hosting/types": ["packages/types/src/index.ts"],
+      "@legacy-hosting/catalog-sdk": ["packages/catalog-sdk/src/index.ts"],
+      "@legacy-hosting/pricing": ["packages/pricing/src/index.ts"],
+      "@legacy-hosting/provisioning": ["packages/provisioning/src/index.ts"]
+    }
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "CommonJS",
+      "moduleResolution": "Node"
+    }
+  },
+  "include": ["packages/**/*.ts", "apps/**/*.ts", "scripts/**/*.ts"]
+}
