@@ -1,25 +1,22 @@
 {
-  "name": "legacy-hosting-platform",
-  "version": "2026.1.0",
+  "name": "legacy-hosting",
   "private": true,
-  "description": "Legacy Hosting Platform monorepo",
-  "packageManager": "pnpm@9.15.0",
-  "engines": {
-    "node": ">=22"
-  },
+  "version": "2026.1.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "typecheck": "turbo run typecheck",
-    "format": "prettier --write .",
-    "catalog:validate": "node scripts/validate-catalog.mjs",
-    "clean": "turbo run clean && rm -rf node_modules"
+    "validate:catalog": "ts-node scripts/validate-catalog.ts",
+    "smoke": "ts-node scripts/smoke-test.ts",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
   },
   "devDependencies": {
-    "prettier": "^3.4.2",
-    "turbo": "^2.3.3",
-    "typescript": "^5.7.2"
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "typescript": "^5.6.3",
+    "ts-node": "^10.9.2",
+    "@types/node": "^20.14.10"
   }
 }
