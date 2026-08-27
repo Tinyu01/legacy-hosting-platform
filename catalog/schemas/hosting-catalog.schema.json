@@ -1,0 +1,345 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hosting.malenglegacy.co.za/schemas/hosting-catalog.schema.json",
+  "title": "Legacy Hosting Catalogue Schema",
+  "description": "Production-grade commercial catalogue for Legacy Hosting (2026). Single source of truth for storefront, billing, provisioning and portal.",
+  "type": "object",
+  "required": ["catalog", "platform", "categories", "products"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "catalog": {
+      "type": "object",
+      "required": ["id", "name", "brand", "version", "currency", "country", "locale"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "brand": { "type": "string" },
+        "version": { "type": "string", "pattern": "^\\d{4}\\.\\d+\\.\\d+$" },
+        "currency": { "type": "string", "const": "ZAR" },
+        "country": { "type": "string", "const": "ZA" },
+        "locale": { "type": "string", "const": "en-ZA" },
+        "tax": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "displayMode": { "type": "string", "enum": ["inclusive", "exclusive"] },
+            "rate": { "type": "number", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "platform": {
+      "type": "object",
+      "properties": {
+        "storefront": { "type": "string", "format": "uri" },
+        "portal": { "type": "string", "format": "uri" },
+        "corporate": { "type": "string", "format": "uri" },
+        "api": { "type": "string", "format": "uri" }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "slug", "displayOrder"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "description": { "type": "string" },
+          "icon": { "type": "string" },
+          "displayOrder": { "type": "integer", "minimum": 1 },
+          "status": { "type": "string", "enum": ["active", "draft", "maintenance", "retired"] }
+        }
+      }
+    },
+    "products": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/product" }
+    },
+    "addons": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/addon" }
+    },
+    "locations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/location" }
+    },
+    "operatingSystems": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/operatingSystem" }
+    },
+    "controlPanels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "status": { "type": "string", "enum": ["active", "draft", "retired"] }
+        }
+      }
+    },
+    "providers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "type", "adapter"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "type": { "type": "string", "enum": ["cloud", "registrar", "hosting", "storage", "local"] },
+          "adapter": { "type": "string" },
+          "environmentVariable": { "type": "string" },
+          "status": { "type": "string", "enum": ["active", "maintenance", "disabled"] }
+        }
+      }
+    },
+    "paymentMethods": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "currency", "type"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "currency": { "type": "string" },
+          "type": { "type": "string", "enum": ["gateway", "manual"] },
+          "status": { "type": "string", "enum": ["active", "disabled"] }
+        }
+      }
+    },
+    "policies": {
+      "type": "object",
+      "properties": {
+        "billing": { "type": "object" },
+        "domains": { "type": "object" },
+        "hosting": { "type": "object" },
+        "vps": { "type": "object" },
+        "cancellation": { "type": "object" }
+      }
+    }
+  },
+  "$defs": {
+    "money": {
+      "type": "object",
+      "required": ["currency"],
+      "properties": {
+        "currency": { "type": "string", "const": "ZAR" },
+        "registration": { "type": "number", "minimum": 0 },
+        "transfer": { "type": "number", "minimum": 0 },
+        "renewal": { "type": "number", "minimum": 0 },
+        "monthly": { "type": "number", "minimum": 0 },
+        "annual": { "type": "number", "minimum": 0 },
+        "setup": { "type": "number", "minimum": 0 }
+      }
+    },
+    "product": {
+      "type": "object",
+      "required": ["id", "category", "type", "name", "slug", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "category": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": [
+            "domain",
+            "shared-hosting",
+            "reseller-hosting",
+            "managed-wordpress",
+            "vps",
+            "managed-vps",
+            "dedicated",
+            "email",
+            "storage",
+            "addon"
+          ]
+        },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "tld": { "type": "string" },
+        "description": { "type": "string" },
+        "marketing": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "badge": { "type": "string" },
+            "featured": { "type": "boolean" },
+            "displayOrder": { "type": "integer" }
+          }
+        },
+        "pricing": { "$ref": "#/$defs/money" },
+        "billing": {
+          "type": "object",
+          "properties": {
+            "period": { "type": "string", "enum": ["year", "month"] },
+            "cycle": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["monthly", "annual"] }
+            },
+            "autoRenew": { "type": "boolean" },
+            "engine": { "type": "string", "const": "fossbilling" },
+            "mapping": {
+              "type": "object",
+              "properties": {
+                "productType": { "type": "string" },
+                "externalProductId": { "type": "string" }
+              }
+            }
+          }
+        },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "vcpu": { "type": "integer", "minimum": 1 },
+            "ramGB": { "type": "number", "minimum": 0.5 },
+            "storage": {
+              "type": "object",
+              "properties": {
+                "sizeGB": { "type": "number" },
+                "type": { "type": "string", "enum": ["NVMe", "SSD", "HDD"] }
+              }
+            },
+            "storageGB": { "type": "number" },
+            "traffic": {
+              "type": "object",
+              "properties": {
+                "includedTB": { "type": "number" }
+              }
+            },
+            "websites": { "type": "integer" },
+            "databases": { "type": "integer" },
+            "mailboxes": { "type": "integer" },
+            "ipv4": { "type": "integer" },
+            "ipv6": { "type": "boolean" }
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "operations": {
+          "type": "object",
+          "properties": {
+            "availabilityCheck": { "type": "boolean" },
+            "registration": { "type": "boolean" },
+            "transfer": { "type": "boolean" },
+            "renewal": { "type": "boolean" },
+            "dnsManagement": { "type": "boolean" }
+          }
+        },
+        "requirements": {
+          "type": "object",
+          "properties": {
+            "authCodeForTransfer": { "type": "boolean" }
+          }
+        },
+        "deployment": {
+          "type": "object",
+          "properties": {
+            "instant": { "type": "boolean" },
+            "estimatedMinutes": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "availableLocations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "operatingSystems": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "controlPanel": { "type": "string" },
+        "providerStrategy": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string", "enum": ["router", "fixed"] },
+            "eligibleProviders": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "fixedProvider": { "type": "string" }
+          }
+        },
+        "portal": {
+          "type": "object",
+          "properties": {
+            "console": { "type": "boolean" },
+            "restart": { "type": "boolean" },
+            "shutdown": { "type": "boolean" },
+            "reinstall": { "type": "boolean" },
+            "resize": { "type": "boolean" },
+            "snapshots": { "type": "boolean" },
+            "firewall": { "type": "boolean" },
+            "metrics": { "type": "boolean" },
+            "dns": { "type": "boolean" },
+            "backups": { "type": "boolean" }
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "active", "maintenance", "sold_out", "deprecated", "retired"]
+        }
+      }
+    },
+    "addon": {
+      "type": "object",
+      "required": ["id", "name", "type", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "description": { "type": "string" },
+        "pricing": { "$ref": "#/$defs/money" },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "compatibleCategories": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "compatibleProducts": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "active", "maintenance", "retired"]
+        }
+      }
+    },
+    "location": {
+      "type": "object",
+      "required": ["id", "name", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "country": { "type": "string" },
+        "countryCode": { "type": "string" },
+        "region": { "type": "string" },
+        "timezone": { "type": "string" },
+        "currency": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["active", "planned", "maintenance", "disabled"]
+        }
+      }
+    },
+    "operatingSystem": {
+      "type": "object",
+      "required": ["id", "name", "version", "family", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "slug": { "type": "string" },
+        "family": { "type": "string", "enum": ["linux", "windows"] },
+        "status": {
+          "type": "string",
+          "enum": ["active", "draft", "retired"]
+        }
+      }
+    }
+  }
+}
