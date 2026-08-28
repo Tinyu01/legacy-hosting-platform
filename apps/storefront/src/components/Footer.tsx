@@ -64,9 +64,10 @@ export function Footer() {
 
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#5c6573]">
-              Legal
+              Support & legal
             </p>
             <ul className="mt-4 space-y-2.5 text-[13px] text-[#8b93a1]">
+              <li>Help Centre</li>
               <li>Terms of Service</li>
               <li>Privacy Policy</li>
               <li>Acceptable Use</li>
