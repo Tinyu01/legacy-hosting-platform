@@ -1,5 +1,4 @@
-import { formatZAR } from "@legacy-hosting/catalog";
-import { getActiveVpsProducts } from "../../lib/catalog";
+import { formatZAR, getActiveVpsProducts } from "../../lib/catalog";
 
 export const metadata = {
   title: "Cloud VPS",
@@ -11,8 +10,7 @@ export default function CloudVpsPage() {
   const plans = getActiveVpsProducts();
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
-      {/* Header */}
+    <main className="min-h-screen">
       <section className="border-b border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950">
         <div className="mx-auto max-w-6xl px-6 py-16 text-center">
           <p className="mb-3 text-sm font-medium uppercase tracking-widest text-sky-400">
@@ -28,12 +26,18 @@ export default function CloudVpsPage() {
         </div>
       </section>
 
-      {/* Plans */}
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {plans.map((plan) => {
-            const storage = plan.resources?.storage;
-            const traffic = plan.resources?.traffic;
+            const resources = plan.resources as {
+              vcpu?: number;
+              ramGB?: number;
+              storage?: { sizeGB: number; type: string };
+              traffic?: { includedTB: number };
+              ipv4?: number;
+            } | undefined;
+            const storage = resources?.storage;
+            const traffic = resources?.traffic;
 
             return (
               <article
@@ -51,21 +55,15 @@ export default function CloudVpsPage() {
                 )}
 
                 <div className="mb-4">
-                  <h2 className="text-xl font-semibold text-white">
-                    {plan.name}
-                  </h2>
+                  <h2 className="text-xl font-semibold text-white">{plan.name}</h2>
                   {plan.marketing?.label && (
-                    <p className="text-sm text-slate-400">
-                      {plan.marketing.label}
-                    </p>
+                    <p className="text-sm text-slate-400">{plan.marketing.label}</p>
                   )}
                 </div>
 
                 <div className="mb-6">
                   <span className="text-3xl font-bold text-white">
-                    {plan.pricing.monthly
-                      ? formatZAR(plan.pricing.monthly)
-                      : "—"}
+                    {plan.pricing.monthly ? formatZAR(plan.pricing.monthly) : "—"}
                   </span>
                   <span className="text-slate-400"> / month</span>
                   {plan.pricing.annual && (
@@ -78,24 +76,18 @@ export default function CloudVpsPage() {
                 <ul className="mb-8 flex-1 space-y-2 text-sm text-slate-300">
                   <li className="flex justify-between">
                     <span>vCPU</span>
-                    <span className="font-medium text-white">
-                      {plan.resources?.vcpu ?? "—"}
-                    </span>
+                    <span className="font-medium text-white">{resources?.vcpu ?? "—"}</span>
                   </li>
                   <li className="flex justify-between">
                     <span>RAM</span>
                     <span className="font-medium text-white">
-                      {plan.resources?.ramGB
-                        ? `${plan.resources.ramGB} GB`
-                        : "—"}
+                      {resources?.ramGB ? `${resources.ramGB} GB` : "—"}
                     </span>
                   </li>
                   <li className="flex justify-between">
                     <span>Storage</span>
                     <span className="font-medium text-white">
-                      {storage
-                        ? `${storage.sizeGB} GB ${storage.type}`
-                        : "—"}
+                      {storage ? `${storage.sizeGB} GB ${storage.type}` : "—"}
                     </span>
                   </li>
                   <li className="flex justify-between">
@@ -104,21 +96,7 @@ export default function CloudVpsPage() {
                       {traffic ? `${traffic.includedTB} TB` : "—"}
                     </span>
                   </li>
-                  <li className="flex justify-between">
-                    <span>IPv4</span>
-                    <span className="font-medium text-white">
-                      {plan.resources?.ipv4 ?? "—"}
-                    </span>
-                  </li>
                 </ul>
-
-                {plan.features && plan.features.length > 0 && (
-                  <ul className="mb-6 space-y-1 border-t border-slate-800 pt-4 text-xs text-slate-400">
-                    {plan.features.slice(0, 4).map((f) => (
-                      <li key={f}>✓ {f}</li>
-                    ))}
-                  </ul>
-                )}
 
                 <a
                   href={`/cloud-vps/${plan.slug}`}
@@ -134,19 +112,7 @@ export default function CloudVpsPage() {
             );
           })}
         </div>
-
-        {plans.length === 0 && (
-          <p className="text-center text-slate-500">
-            No VPS plans are currently active in the catalogue.
-          </p>
-        )}
       </section>
-
-      <footer className="border-t border-slate-800 py-8 text-center text-sm text-slate-500">
-        <a href="/" className="hover:text-sky-400">
-          ← Back to home
-        </a>
-      </footer>
     </main>
   );
 }
