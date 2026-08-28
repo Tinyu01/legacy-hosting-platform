@@ -1,24 +1,22 @@
 {
-  "name": "legacy-hosting-platform",
-  "version": "2026.1.0",
+  "name": "legacy-hosting",
   "private": true,
-  "description": "Legacy Hosting Platform monorepo",
-  "packageManager": "pnpm@9.15.0",
-  "engines": {
-    "node": ">=20"
-  },
+  "version": "2026.1.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "pnpm --filter @legacy-hosting/storefront dev",
-    "dev:storefront": "pnpm --filter @legacy-hosting/storefront dev",
-    "dev:api": "pnpm --filter @legacy-hosting/api dev",
-    "build": "pnpm -r --if-present run build",
-    "lint": "pnpm -r --if-present run lint",
-    "typecheck": "pnpm -r --if-present run typecheck",
-    "test": "pnpm -r --if-present run test",
-    "clean": "pnpm -r --if-present run clean"
+    "validate:catalog": "ts-node scripts/validate-catalog.ts",
+    "smoke": "ts-node scripts/smoke-test.ts",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
   },
   "devDependencies": {
-    "typescript": "^5.7.2",
-    "@types/node": "^22.10.0"
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "typescript": "^5.6.3",
+    "ts-node": "^10.9.2",
+    "@types/node": "^20.14.10"
   }
 }
