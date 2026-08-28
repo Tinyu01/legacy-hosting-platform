@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
-import Ajv, { ValidateFunction } from "ajv";
+import Ajv2020 from "ajv/dist/2020";
+import type { ValidateFunction } from "ajv";
 import addFormats from "ajv-formats";
 import type {
   HostingCatalog,
@@ -25,9 +26,15 @@ let cachedValidator: ValidateFunction | null = null;
 
 function getValidator(): ValidateFunction {
   if (cachedValidator) return cachedValidator;
-  const ajv = new Ajv({ allErrors: true, strict: false });
+
+  // Schema uses JSON Schema draft 2020-12
+  const ajv = new Ajv2020({ allErrors: true, strict: false });
   addFormats(ajv);
-  const schemaPath = path.join(__dirname, "../../../catalog/schemas/hosting-catalog.schema.json");
+
+  const schemaPath = path.join(
+    __dirname,
+    "../../../catalog/schemas/hosting-catalog.schema.json"
+  );
   const schema = JSON.parse(fs.readFileSync(schemaPath, "utf-8"));
   cachedValidator = ajv.compile(schema);
   return cachedValidator;
@@ -41,7 +48,8 @@ export function loadCatalog(catalogPath?: string): HostingCatalog {
   if (cachedCatalog) return cachedCatalog;
 
   const resolvedPath =
-    catalogPath ?? path.join(__dirname, "../../../catalog/hosting-catalog.json");
+    catalogPath ??
+    path.join(__dirname, "../../../catalog/hosting-catalog.json");
   const raw = JSON.parse(fs.readFileSync(resolvedPath, "utf-8"));
 
   const validate = getValidator();
@@ -65,25 +73,40 @@ export function getActiveProducts(catalog = loadCatalog()): Product[] {
   return catalog.products.filter((p) => p.status === "active");
 }
 
-export function getProductsByCategory(categoryId: string, catalog = loadCatalog()): Product[] {
+export function getProductsByCategory(
+  categoryId: string,
+  catalog = loadCatalog()
+): Product[] {
   return getActiveProducts(catalog).filter((p) => p.category === categoryId);
 }
 
-export function getProductBySlug(slug: string, catalog = loadCatalog()): Product | undefined {
+export function getProductBySlug(
+  slug: string,
+  catalog = loadCatalog()
+): Product | undefined {
   return catalog.products.find((p) => p.slug === slug);
 }
 
-export function getProductById(id: string, catalog = loadCatalog()): Product | undefined {
+export function getProductById(
+  id: string,
+  catalog = loadCatalog()
+): Product | undefined {
   return catalog.products.find((p) => p.id === id);
 }
 
-export function getAddonsForCategory(categoryId: string, catalog = loadCatalog()): Addon[] {
+export function getAddonsForCategory(
+  categoryId: string,
+  catalog = loadCatalog()
+): Addon[] {
   return (catalog.addons ?? []).filter(
     (a) => a.status === "active" && a.compatibleCategories.includes(categoryId)
   );
 }
 
-export function getAddonById(id: string, catalog = loadCatalog()): Addon | undefined {
+export function getAddonById(
+  id: string,
+  catalog = loadCatalog()
+): Addon | undefined {
   return (catalog.addons ?? []).find((a) => a.id === id);
 }
 
@@ -92,7 +115,9 @@ export function getAvailableLocationsForProduct(
   catalog = loadCatalog()
 ): Location[] {
   const ids = new Set(product.availableLocations ?? []);
-  return (catalog.locations ?? []).filter((l) => ids.has(l.id) && l.status === "active");
+  return (catalog.locations ?? []).filter(
+    (l) => ids.has(l.id) && l.status === "active"
+  );
 }
 
 export function getOperatingSystemsForProduct(
@@ -105,12 +130,18 @@ export function getOperatingSystemsForProduct(
   );
 }
 
-export function getEligibleProviders(product: Product, catalog = loadCatalog()): Provider[] {
+export function getEligibleProviders(
+  product: Product,
+  catalog = loadCatalog()
+): Provider[] {
   const ids = new Set(product.providerStrategy.eligibleProviders);
   return catalog.providers.filter((p) => ids.has(p.id) && p.status === "active");
 }
 
-export function isPurchasable(product: Product, catalog = loadCatalog()): boolean {
+export function isPurchasable(
+  product: Product,
+  catalog = loadCatalog()
+): boolean {
   if (product.status !== "active") return false;
   return getEligibleProviders(product, catalog).length > 0;
 }
