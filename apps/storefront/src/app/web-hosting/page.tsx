@@ -1,112 +1,146 @@
-import { formatZAR } from "@legacy-hosting/catalog";
-import { getActiveWebHostingProducts } from "../../lib/catalog";
+import Link from "next/link";
+import { formatZAR, getActiveWebHostingProducts } from "../../lib/catalog";
 
 export const metadata = {
   title: "Web Hosting",
   description:
-    "Reliable web hosting with NVMe storage, free SSL and ZAR billing.",
+    "Shared and Managed WordPress hosting with NVMe storage, SSL and ZAR billing.",
 };
 
 export default function WebHostingPage() {
   const plans = getActiveWebHostingProducts();
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
-      <section className="border-b border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950">
-        <div className="mx-auto max-w-6xl px-6 py-16 text-center">
-          <p className="mb-3 text-sm font-medium uppercase tracking-widest text-sky-400">
-            Web Hosting
-          </p>
-          <h1 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-            Launch your website
+    <main>
+      <section className="border-b border-[#1c2129]">
+        <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:px-8">
+          <p className="lh-section-label">Web Hosting</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white">
+            Hosting for sites that need to stay up
           </h1>
-          <p className="mx-auto max-w-xl text-slate-400">
-            Fast NVMe hosting with free SSL, email and daily backups. Simple
-            pricing in ZAR.
+          <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#8b93a1]">
+            Shared hosting and Managed WordPress. SSL, email and backups
+            included. Priced in ZAR.
           </p>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {plans.map((plan) => (
-            <article
-              key={plan.id}
-              className={`flex flex-col rounded-2xl border p-6 ${
-                plan.marketing?.featured
-                  ? "border-sky-500/60 bg-slate-900"
-                  : "border-slate-800 bg-slate-900/40"
-              }`}
-            >
-              {plan.marketing?.badge && (
-                <span className="mb-3 w-fit rounded-full bg-sky-500/10 px-3 py-0.5 text-xs font-medium text-sky-400">
-                  {plan.marketing.badge}
-                </span>
-              )}
+      <section className="mx-auto max-w-6xl px-5 py-12 sm:px-6 lg:px-8">
+        <div className="overflow-hidden rounded-lg border border-[#2a303c]">
+          <table className="w-full text-left text-[13px]">
+            <thead className="border-b border-[#2a303c] bg-[#11141a] text-[11px] uppercase tracking-wider text-[#5c6573]">
+              <tr>
+                <th className="px-5 py-3.5 font-medium">Plan</th>
+                <th className="hidden px-5 py-3.5 font-medium sm:table-cell">
+                  Storage
+                </th>
+                <th className="hidden px-5 py-3.5 font-medium md:table-cell">
+                  Sites
+                </th>
+                <th className="hidden px-5 py-3.5 font-medium md:table-cell">
+                  Email
+                </th>
+                <th className="px-5 py-3.5 font-medium">Monthly</th>
+                <th className="hidden px-5 py-3.5 font-medium lg:table-cell">
+                  Annual
+                </th>
+                <th className="px-5 py-3.5 font-medium" />
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#1c2129]">
+              {plans.map((plan) => {
+                const res = plan.resources as {
+                  storageGB?: number;
+                  websites?: number;
+                  mailboxes?: number;
+                  databases?: number;
+                } | undefined;
+                return (
+                  <tr
+                    key={plan.id}
+                    className="bg-[#0a0c10] transition hover:bg-[#11141a]"
+                  >
+                    <td className="px-5 py-4">
+                      <div className="flex flex-col gap-1">
+                        <span className="font-medium text-white">
+                          {plan.name}
+                        </span>
+                        {plan.marketing?.badge && (
+                          <span className="w-fit rounded bg-blue-600/15 px-1.5 py-0.5 text-[10px] font-semibold text-blue-400">
+                            {plan.marketing.badge}
+                          </span>
+                        )}
+                        <span className="text-[12px] text-[#5c6573] line-clamp-1 sm:hidden">
+                          {plan.description}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="hidden px-5 py-4 text-[#8b93a1] sm:table-cell">
+                      {res?.storageGB ? `${res.storageGB} GB` : "—"}
+                    </td>
+                    <td className="hidden px-5 py-4 text-[#8b93a1] md:table-cell">
+                      {res?.websites ?? "—"}
+                    </td>
+                    <td className="hidden px-5 py-4 text-[#8b93a1] md:table-cell">
+                      {res?.mailboxes ?? "—"}
+                    </td>
+                    <td className="px-5 py-4 font-medium text-white">
+                      {plan.pricing.monthly
+                        ? formatZAR(plan.pricing.monthly)
+                        : "—"}
+                    </td>
+                    <td className="hidden px-5 py-4 text-[#8b93a1] lg:table-cell">
+                      {plan.pricing.annual
+                        ? formatZAR(plan.pricing.annual)
+                        : "—"}
+                    </td>
+                    <td className="px-5 py-4 text-right">
+                      <Link
+                        href={`/web-hosting/${plan.slug}`}
+                        className="inline-flex rounded-md bg-blue-600 px-3 py-1.5 text-[12px] font-semibold text-white transition hover:bg-blue-500"
+                      >
+                        Select
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
-              <h2 className="text-xl font-semibold text-white">{plan.name}</h2>
-              <p className="mt-1 text-sm text-slate-400">{plan.description}</p>
-
-              <div className="my-6">
-                <span className="text-3xl font-bold text-white">
-                  {plan.pricing.monthly
-                    ? formatZAR(plan.pricing.monthly)
-                    : "—"}
-                </span>
-                <span className="text-slate-400"> / month</span>
-              </div>
-
-              <ul className="mb-8 flex-1 space-y-2 text-sm text-slate-300">
-                {plan.resources?.storageGB && (
-                  <li className="flex justify-between">
-                    <span>Storage</span>
-                    <span className="font-medium text-white">
-                      {plan.resources.storageGB} GB
-                    </span>
-                  </li>
-                )}
-                {plan.resources?.websites && (
-                  <li className="flex justify-between">
-                    <span>Websites</span>
-                    <span className="font-medium text-white">
-                      {plan.resources.websites}
-                    </span>
-                  </li>
-                )}
-                {plan.resources?.databases && (
-                  <li className="flex justify-between">
-                    <span>Databases</span>
-                    <span className="font-medium text-white">
-                      {plan.resources.databases}
-                    </span>
-                  </li>
-                )}
-                {plan.resources?.mailboxes && (
-                  <li className="flex justify-between">
-                    <span>Mailboxes</span>
-                    <span className="font-medium text-white">
-                      {plan.resources.mailboxes}
-                    </span>
-                  </li>
-                )}
-              </ul>
-
-              <a
-                href={`/web-hosting/${plan.slug}`}
-                className="block rounded-lg bg-sky-500 py-3 text-center text-sm font-semibold text-slate-950 transition hover:bg-sky-400"
-              >
-                Get Started
-              </a>
-            </article>
-          ))}
+        <div className="mt-10 grid gap-8 border-t border-[#1c2129] pt-10 sm:grid-cols-3">
+          <div>
+            <h3 className="text-[14px] font-semibold text-white">
+              Starter → Business
+            </h3>
+            <p className="mt-2 text-[13px] leading-relaxed text-[#8b93a1]">
+              Start small. Move up when you need more sites, storage or
+              mailboxes — same account.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-[14px] font-semibold text-white">
+              Managed WordPress
+            </h3>
+            <p className="mt-2 text-[13px] leading-relaxed text-[#8b93a1]">
+              For sites that need automatic updates, staging and stronger
+              defaults.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-[14px] font-semibold text-white">
+              Need more control?
+            </h3>
+            <p className="mt-2 text-[13px] leading-relaxed text-[#8b93a1]">
+              <Link href="/cloud-vps" className="text-blue-400 hover:text-blue-300">
+                Cloud VPS
+              </Link>{" "}
+              gives you root access, snapshots and full stack choice.
+            </p>
+          </div>
         </div>
       </section>
-
-      <footer className="border-t border-slate-800 py-8 text-center text-sm text-slate-500">
-        <a href="/" className="hover:text-sky-400">
-          ← Back to home
-        </a>
-      </footer>
     </main>
   );
 }
