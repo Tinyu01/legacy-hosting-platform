@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import "./globals.css";
 
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
 export const metadata: Metadata = {
   title: {
-    default: "Legacy Hosting | Infrastructure built for your next move",
-    template: "%s | Legacy Hosting",
+    default: "Legacy Hosting — Domains, Hosting & Cloud VPS",
+    template: "%s · Legacy Hosting",
   },
   description:
-    "Domains, web hosting, cloud VPS and dedicated infrastructure — managed from one platform. ZAR billing, South African support.",
+    "Register domains, deploy cloud servers and host websites with ZAR billing and South African support. Infrastructure for businesses that need to ship.",
 };
 
 export default function RootLayout({
@@ -18,8 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-ZA">
-      <body className="min-h-screen bg-slate-950 text-slate-100 antialiased">
+    <html lang="en-ZA" className={inter.variable}>
+      <body className="min-h-screen bg-[#0a0c10] font-sans text-[#e8eaed] antialiased">
         <Header />
         {children}
         <Footer />
