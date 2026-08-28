@@ -1,16 +1,34 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: [
+          "var(--font-inter)",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif",
+        ],
+      },
       colors: {
-        legacy: {
-          primary: "rgb(var(--legacy-primary) / <alpha-value>)",
-          accent: "rgb(var(--legacy-accent) / <alpha-value>)",
+        lh: {
+          bg: "#0a0c10",
+          surface: "#11141a",
+          elevated: "#161b22",
+          border: "#2a303c",
+          muted: "#8b93a1",
+          faint: "#5c6573",
         },
+      },
+      maxWidth: {
+        content: "72rem",
+      },
+      letterSpacing: {
+        tightest: "-0.03em",
       },
     },
   },
