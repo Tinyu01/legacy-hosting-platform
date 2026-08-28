@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const nav = [
+const primaryNav = [
   { href: "/domains", label: "Domains" },
   { href: "/web-hosting", label: "Web Hosting" },
   { href: "/cloud-vps", label: "Cloud VPS" },
@@ -11,14 +11,12 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-[#1c2129] bg-[#0a0c10]/95 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:px-6 lg:px-8">
         <div className="flex items-center gap-10">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-[15px] font-semibold tracking-tight text-white">
-              Legacy Hosting
-            </span>
+          <Link href="/" className="text-[15px] font-semibold tracking-tight text-white">
+            Legacy Hosting
           </Link>
 
-          <nav className="hidden items-center gap-7 md:flex">
-            {nav.map((item) => (
+          <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
+            {primaryNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -30,21 +28,34 @@ export function Header() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <a
             href="https://cloud.malenglegacy.co.za"
             className="hidden text-[13px] font-medium text-[#8b93a1] transition hover:text-white sm:inline"
           >
             Login
           </a>
-          <Link
-            href="/cloud-vps"
-            className="rounded-md bg-blue-600 px-3.5 py-1.5 text-[13px] font-semibold text-white transition hover:bg-blue-500"
-          >
+          <Link href="/domains" className="lh-btn-primary !py-1.5 !text-[13px]">
             Get started
           </Link>
         </div>
       </div>
+
+      {/* Mobile product ladder */}
+      <nav
+        className="flex gap-1 overflow-x-auto border-t border-[#1c2129] px-5 py-2 md:hidden"
+        aria-label="Products"
+      >
+        {primaryNav.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="shrink-0 rounded-md px-3 py-1.5 text-[12px] font-medium text-[#8b93a1] hover:bg-white/5 hover:text-white"
+          >
+            {item.label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }
