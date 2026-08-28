@@ -9,6 +9,8 @@
   "scripts": {
     "validate:catalog": "ts-node scripts/validate-catalog.ts",
     "smoke": "ts-node scripts/smoke-test.ts",
+    "api": "npm run dev --workspace=@legacy-hosting/api",
+    "storefront": "npm run dev --workspace=@legacy-hosting/storefront",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present"
   },
