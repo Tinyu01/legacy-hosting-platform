@@ -4,7 +4,6 @@
 
 @layer base {
   :root {
-    /* Dark (default) */
     --bg-primary: #04132a;
     --bg-surface: #071224;
     --bg-soft: #0d1b34;
@@ -56,24 +55,28 @@
 
 @layer components {
   /*
-   * Commercial wrap — not feather-wide.
-   * Matches Legacy Hosting HTML mock (.wrap { max-width: 1180px; padding: 0 32px })
-   * and Tech side rhythm (px-6 ≈ 24px; use 32px via px-8 on large screens).
+   * Match tech.malenglegacy.co.za layout rhythm:
+   *   content: mx-auto max-w-7xl px-6
+   *   shell (header): mx-auto px-6 (full width gutters, no max)
+   * Live site uses max-w-6xl in places; group template uses max-w-7xl.
+   * We use max-w-7xl so content sits closer to the edges on large screens.
    */
   .lh-container {
     width: 100%;
-    max-width: 1180px;
+    max-width: 80rem; /* 1280px — Tailwind max-w-7xl */
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1.5rem;  /* 24px mobile */
+    padding-left: 1.5rem; /* 24px — px-6 */
     padding-right: 1.5rem;
   }
 
-  @media (min-width: 640px) {
-    .lh-container {
-      padding-left: 2rem; /* 32px — HTML mock */
-      padding-right: 2rem;
-    }
+  /* Header / topbar — same as Tech: only horizontal padding, no max-width */
+  .lh-shell {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
   .lh-btn-primary {
