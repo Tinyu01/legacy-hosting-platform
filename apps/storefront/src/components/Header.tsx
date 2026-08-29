@@ -13,55 +13,37 @@ function ChevronDown() {
   );
 }
 
-function NavLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className="rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-ink"
-    >
-      {children}
-    </Link>
-  );
-}
-
-function DropdownLink({
-  href,
-  title,
-  desc,
-}: {
-  href: string;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className="block rounded-lg px-3 py-2.5 transition hover:bg-soft"
-    >
-      <p className="text-[13px] font-semibold text-ink">{title}</p>
-      <p className="text-[12px] text-ink-dim">{desc}</p>
-    </Link>
-  );
-}
+/** HostAfrica-style: services stay visible in the bar, not buried under "More". */
+const primaryServices = [
+  { href: "/domains", label: "Domains" },
+  { href: "/web-hosting", label: "Web Hosting" },
+  { href: "/cloud-vps", label: "Cloud VPS" },
+  { href: "/web-hosting", label: "Email" },
+  { href: "/cloud-vps", label: "Dedicated" },
+];
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-primary/90 backdrop-blur-md">
-      {/* Top bar */}
+    <header className="sticky top-0 z-50 border-b border-border bg-primary/95 backdrop-blur-md">
+      {/* Utility top bar — SA commercial hosts style */}
       <div className="hidden border-b border-border bg-[#020b19] sm:block">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-1.5 text-[11px] text-ink-dim sm:px-6 lg:px-8">
-          <span>Maleng Legacy Group</span>
+          <div className="flex items-center gap-4">
+            <span>Maleng Legacy Group</span>
+            <span className="hidden text-ink-dim md:inline">·</span>
+            <a
+              href="https://tech.malenglegacy.co.za"
+              className="hidden hover:text-highlight md:inline"
+            >
+              Tech & Consulting
+            </a>
+          </div>
           <div className="flex items-center gap-5">
-            <span>ZAR · VAT where applicable</span>
+            <span>Support in SAST</span>
+            <span>Pay in ZAR</span>
             <a
               href="https://cloud.malenglegacy.co.za"
-              className="hover:text-highlight"
+              className="font-medium text-ink-muted hover:text-highlight"
             >
               Client Portal
             </a>
@@ -69,92 +51,39 @@ export function Header() {
         </div>
       </div>
 
-      <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2.5">
-            <span className="h-[26px] w-[26px] shrink-0 rounded-[7px] bg-gradient-to-br from-highlight to-[#0d8f8e]" />
-            <span className="text-[17px] font-semibold tracking-tight text-ink">
-              Legacy Hosting
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-6 lg:px-8">
+        <div className="flex min-w-0 items-center gap-6 lg:gap-8">
+          <Link href="/" className="flex shrink-0 items-center gap-2.5">
+            <span className="h-7 w-7 rounded-lg bg-gradient-to-br from-highlight to-[#0d8f8e]" />
+            <span className="text-[16px] font-bold tracking-tight text-ink">
+              Legacy <span className="text-highlight">Hosting</span>
             </span>
           </Link>
 
-          {/* Contabo-style primary nav */}
+          {/* Open service links — HostAfrica pattern */}
           <nav
-            className="hidden items-center gap-0.5 xl:flex"
-            aria-label="Primary"
+            className="hidden items-center gap-0.5 lg:flex"
+            aria-label="Services"
           >
-            <NavLink href="/cloud-vps">VPS</NavLink>
-
-            <NavLink href="/cloud-vps">Dedicated Server</NavLink>
-
-            {/* Apps & Panels */}
-            <div className="group relative">
-              <button
-                type="button"
-                className="flex items-center gap-1 rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-ink"
+            {primaryServices.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-highlight"
               >
-                Apps & Panels
-                <ChevronDown />
-              </button>
-              <div className="invisible absolute left-0 top-full z-50 w-64 pt-2 opacity-0 transition group-hover:visible group-hover:opacity-100">
-                <div className="rounded-xl border border-border bg-surface py-2 shadow-2xl">
-                  <DropdownLink
-                    href="/web-hosting"
-                    title="Web Hosting"
-                    desc="Shared & Managed WordPress"
-                  />
-                  <DropdownLink
-                    href="/web-hosting"
-                    title="cPanel / Hestia"
-                    desc="Control panels on hosting plans"
-                  />
-                  <DropdownLink
-                    href="/cloud-vps"
-                    title="Managed VPS"
-                    desc="We patch, monitor and secure"
-                  />
-                </div>
-              </div>
-            </div>
+                {item.label}
+              </Link>
+            ))}
 
-            {/* More */}
-            <div className="group relative">
-              <button
-                type="button"
-                className="flex items-center gap-1 rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-ink"
-              >
-                More
-                <ChevronDown />
-              </button>
-              <div className="invisible absolute left-0 top-full z-50 w-[280px] pt-2 opacity-0 transition group-hover:visible group-hover:opacity-100">
-                <div className="rounded-xl border border-border bg-surface py-2 shadow-2xl">
-                  <DropdownLink
-                    href="/domains"
-                    title="Domains"
-                    desc="Register, transfer & DNS"
-                  />
-                  <DropdownLink
-                    href="/web-hosting"
-                    title="Email"
-                    desc="Business mailboxes on your domain"
-                  />
-                  <DropdownLink
-                    href="/cloud-vps"
-                    title="Backups & SSL"
-                    desc="Infrastructure add-ons"
-                  />
-                  <DropdownLink
-                    href="/cloud-vps"
-                    title="Object storage"
-                    desc="Coming after core checkout"
-                  />
-                </div>
-              </div>
-            </div>
+            {/* Pricing stays explicit */}
+            <Link
+              href="/cloud-vps"
+              className="rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-highlight"
+            >
+              Pricing
+            </Link>
 
-            <NavLink href="/cloud-vps">Pricing</NavLink>
-
-            {/* Company */}
+            {/* Company only — secondary */}
             <div className="group relative">
               <button
                 type="button"
@@ -163,7 +92,7 @@ export function Header() {
                 Company
                 <ChevronDown />
               </button>
-              <div className="invisible absolute left-0 top-full z-50 w-56 pt-2 opacity-0 transition group-hover:visible group-hover:opacity-100">
+              <div className="invisible absolute right-0 top-full z-50 w-52 pt-2 opacity-0 transition group-hover:visible group-hover:opacity-100">
                 <div className="rounded-xl border border-border bg-surface py-2 shadow-xl">
                   <a
                     href="https://tech.malenglegacy.co.za"
@@ -175,13 +104,13 @@ export function Header() {
                     href="https://malenglegacy.co.za"
                     className="block px-4 py-2 text-[13px] text-ink-secondary hover:bg-soft hover:text-ink"
                   >
-                    Maleng Legacy Group
+                    Group website
                   </a>
                   <Link
                     href="/"
                     className="block px-4 py-2 text-[13px] text-ink-secondary hover:bg-soft hover:text-ink"
                   >
-                    About Legacy Hosting
+                    About us
                   </Link>
                   <Link
                     href="/"
@@ -193,53 +122,41 @@ export function Header() {
               </div>
             </div>
           </nav>
-
-          {/* Compact nav for md–lg */}
-          <nav
-            className="hidden items-center gap-0.5 lg:flex xl:hidden"
-            aria-label="Primary compact"
-          >
-            <NavLink href="/cloud-vps">VPS</NavLink>
-            <NavLink href="/web-hosting">Hosting</NavLink>
-            <NavLink href="/domains">Domains</NavLink>
-            <NavLink href="/cloud-vps">Pricing</NavLink>
-          </nav>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <ThemeToggle />
           <a
             href="https://cloud.malenglegacy.co.za"
-            className="hidden text-[13.5px] font-medium text-ink-secondary transition hover:text-ink sm:inline"
+            className="hidden text-[13px] font-medium text-ink-secondary transition hover:text-ink md:inline"
           >
             Log in
           </a>
-          <Link href="/cloud-vps" className="lh-btn-primary !py-2 !text-[13px]">
+          <Link
+            href="/domains"
+            className="lh-btn-primary !py-2 !px-4 !text-[13px]"
+          >
             Get started
           </Link>
         </div>
       </div>
 
-      {/* Mobile strip — Contabo-style labels */}
+      {/* Mobile / tablet — same services, scrollable, never hidden behind "More" */}
       <nav
-        className="flex gap-1 overflow-x-auto border-t border-border px-4 py-2 lg:hidden"
-        aria-label="Products"
+        className="flex gap-1.5 overflow-x-auto border-t border-border px-4 py-2.5 lg:hidden"
+        aria-label="Services"
       >
-        {[
-          { href: "/cloud-vps", label: "VPS" },
-          { href: "/cloud-vps", label: "Dedicated" },
-          { href: "/web-hosting", label: "Apps & Panels" },
-          { href: "/domains", label: "Domains" },
-          { href: "/cloud-vps", label: "Pricing" },
-        ].map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            className="shrink-0 rounded-full border border-border bg-soft px-3 py-1.5 text-[12px] font-medium text-ink-secondary"
-          >
-            {item.label}
-          </Link>
-        ))}
+        {[...primaryServices, { href: "/cloud-vps", label: "Pricing" }].map(
+          (item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="shrink-0 rounded-full border border-border bg-soft px-3.5 py-1.5 text-[12px] font-semibold text-ink-secondary transition hover:border-highlight/40 hover:text-highlight"
+            >
+              {item.label}
+            </Link>
+          )
+        )}
       </nav>
     </header>
   );
