@@ -9,7 +9,8 @@
   }
 
   body {
-    @apply bg-primary text-white font-sans;
+    color: #ffffff;
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
     background: radial-gradient(ellipse at top, #0d1b34 0%, #04132a 55%, #020810 100%);
   }
 
@@ -25,26 +26,79 @@
   }
 
   .lh-btn-primary {
-    @apply inline-flex items-center justify-center rounded-lg bg-highlight px-5 py-2.5 text-sm font-semibold text-primary transition hover:bg-highlight/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-highlight;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    background-color: #14d2d1;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #04132a;
+    transition: background-color 0.15s ease;
+  }
+
+  .lh-btn-primary:hover {
+    background-color: rgba(20, 210, 209, 0.9);
   }
 
   .lh-btn-secondary {
-    @apply inline-flex items-center justify-center rounded-lg border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-highlight/50 hover:bg-white/10;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .lh-btn-secondary:hover {
+    border-color: rgba(20, 210, 209, 0.5);
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   .lh-card {
-    @apply rounded-2xl border border-white/10 bg-gradient-to-br from-soft via-surface to-surface;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(to bottom right, #0d1b34, #071224, #071224);
   }
 
   .lh-card-featured {
-    @apply rounded-2xl border border-highlight/40 bg-gradient-to-br from-soft to-surface shadow-xl shadow-highlight/10;
+    border-radius: 1rem;
+    border: 1px solid rgba(20, 210, 209, 0.4);
+    background: linear-gradient(to bottom right, #0d1b34, #071224);
+    box-shadow: 0 20px 40px rgba(20, 210, 209, 0.1);
   }
 
   .lh-input {
-    @apply w-full rounded-lg border border-white/15 bg-surface/80 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-highlight focus:outline-none focus:ring-1 focus:ring-highlight/50;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(7, 18, 36, 0.8);
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    color: #ffffff;
+  }
+
+  .lh-input::placeholder {
+    color: #6b7280;
+  }
+
+  .lh-input:focus {
+    border-color: #14d2d1;
+    outline: none;
+    box-shadow: 0 0 0 1px rgba(20, 210, 209, 0.5);
   }
 
   .lh-section-label {
-    @apply text-xs font-semibold uppercase tracking-[0.14em] text-highlight;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #14d2d1;
   }
 }
