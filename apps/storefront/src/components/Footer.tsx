@@ -2,44 +2,41 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-surface">
-      <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
-          <div className="lg:col-span-2">
-            <p className="text-[16px] font-bold tracking-tight text-white">
+    <footer className="border-t border-border bg-[#020b19] pt-14 pb-6">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+        <div className="mb-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="lg:col-span-1">
+            <p className="text-[17px] font-semibold text-ink">
               Legacy <span className="text-highlight">Hosting</span>
             </p>
-            <p className="mt-3 max-w-xs text-[13px] leading-relaxed text-gray-400">
-              Domains, web hosting and cloud infrastructure for South African
-              businesses. Catalogue-driven products with ZAR billing.
-            </p>
-            <p className="mt-4 text-[12px] text-gray-500">
-              A Maleng Legacy Group company
+            <p className="mt-2.5 max-w-[220px] text-[13px] leading-[1.7] text-ink-dim">
+              A Maleng Legacy Group company. Domains, hosting and cloud
+              infrastructure, built for South African businesses.
             </p>
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-500">
+            <h4 className="mb-3.5 text-[12.5px] font-semibold text-ink-muted">
               Products
-            </p>
-            <ul className="mt-4 space-y-2.5 text-[13px] text-gray-400">
+            </h4>
+            <ul className="space-y-2.5 text-[13px] text-ink-dim">
               <li>
-                <Link href="/domains" className="hover:text-highlight">
+                <Link href="/domains" className="hover:text-ink-secondary">
                   Domains
                 </Link>
               </li>
               <li>
-                <Link href="/web-hosting" className="hover:text-highlight">
+                <Link href="/web-hosting" className="hover:text-ink-secondary">
                   Web Hosting
                 </Link>
               </li>
               <li>
-                <Link href="/cloud-vps" className="hover:text-highlight">
+                <Link href="/cloud-vps" className="hover:text-ink-secondary">
                   Cloud VPS
                 </Link>
               </li>
               <li>
-                <Link href="/cloud-vps" className="hover:text-highlight">
+                <Link href="/cloud-vps" className="hover:text-ink-secondary">
                   Managed VPS
                 </Link>
               </li>
@@ -47,57 +44,68 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-500">
+            <h4 className="mb-3.5 text-[12.5px] font-semibold text-ink-muted">
               Account
-            </p>
-            <ul className="mt-4 space-y-2.5 text-[13px] text-gray-400">
+            </h4>
+            <ul className="space-y-2.5 text-[13px] text-ink-dim">
               <li>
                 <a
                   href="https://cloud.malenglegacy.co.za"
-                  className="hover:text-highlight"
+                  className="hover:text-ink-secondary"
                 >
                   Client Portal
                 </a>
               </li>
               <li>
-                <a
-                  href="https://tech.malenglegacy.co.za"
-                  className="hover:text-highlight"
-                >
-                  Maleng Legacy Tech
-                </a>
+                <span className="cursor-default">Billing</span>
               </li>
               <li>
-                <a
-                  href="https://malenglegacy.co.za"
-                  className="hover:text-highlight"
-                >
-                  Group website
-                </a>
+                <span className="cursor-default">Support tickets</span>
               </li>
             </ul>
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-500">
-              Support & legal
-            </p>
-            <ul className="mt-4 space-y-2.5 text-[13px] text-gray-400">
-              <li>Help Centre</li>
-              <li>Terms of Service</li>
-              <li>Privacy Policy</li>
-              <li>Acceptable Use</li>
+            <h4 className="mb-3.5 text-[12.5px] font-semibold text-ink-muted">
+              Resources
+            </h4>
+            <ul className="space-y-2.5 text-[13px] text-ink-dim">
+              <li>
+                <a
+                  href="https://tech.malenglegacy.co.za"
+                  className="hover:text-ink-secondary"
+                >
+                  Maleng Legacy Tech
+                </a>
+              </li>
+              <li>
+                <span className="cursor-default">Knowledge base</span>
+              </li>
+              <li>
+                <span className="cursor-default">Server status</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="mb-3.5 text-[12.5px] font-semibold text-ink-muted">
+              Legal
+            </h4>
+            <ul className="space-y-2.5 text-[13px] text-ink-dim">
+              <li>Terms of service</li>
+              <li>Privacy policy</li>
               <li>SLA</li>
+              <li>Abuse policy</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-[12px] text-gray-500 sm:flex-row sm:items-center">
-          <p>
-            © {new Date().getFullYear()} Maleng Legacy Group (Pty) Ltd. All
-            rights reserved.
-          </p>
-          <p>Prices in ZAR · VAT inclusive where applicable</p>
+        <div className="flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-[12px] text-[#4a5a78] sm:flex-row sm:items-center">
+          <span>
+            © {new Date().getFullYear()} Maleng Legacy Group. All rights
+            reserved.
+          </span>
+          <span>tech.malenglegacy.co.za</span>
         </div>
       </div>
     </footer>
