@@ -4,31 +4,22 @@ const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      colors: {
+        primary: "#04132a",
+        secondary: "#0f4a82",
+        accent: "#f4b41a",
+        highlight: "#14d2d1",
+        gold: "#d4af37",
+        surface: "#071224",
+        soft: "#0d1b34",
+      },
       fontFamily: {
         sans: [
           "var(--font-inter)",
+          "Inter",
           "system-ui",
-          "-apple-system",
-          "Segoe UI",
-          "Roboto",
           "sans-serif",
         ],
-      },
-      colors: {
-        lh: {
-          bg: "#0a0c10",
-          surface: "#11141a",
-          elevated: "#161b22",
-          border: "#2a303c",
-          muted: "#8b93a1",
-          faint: "#5c6573",
-        },
-      },
-      maxWidth: {
-        content: "72rem",
-      },
-      letterSpacing: {
-        tightest: "-0.03em",
       },
     },
   },
