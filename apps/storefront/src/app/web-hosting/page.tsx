@@ -25,7 +25,7 @@ export default function WebHostingPage() {
         ctaSecondary={{ text: "Cloud VPS", href: "/cloud-vps" }}
       />
 
-      <section id="plans" className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:px-8">
+      <section id="plans" className="lh-container py-14">
         <div className="grid gap-5 md:grid-cols-3">
           {plans.map((plan) => (
             <HostingPlanCard key={plan.id} plan={plan} />
