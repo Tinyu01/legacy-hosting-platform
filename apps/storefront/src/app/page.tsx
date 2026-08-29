@@ -9,6 +9,7 @@ import { HowItWorks } from "../components/HowItWorks";
 import { FinalCTA } from "../components/FinalCTA";
 import { DomainSearch } from "../components/DomainSearch";
 import { VpsPlanCard } from "../components/VpsPlanCard";
+import { HostingPlanCard } from "../components/HostingPlanCard";
 import { SectionHeading } from "../components/SectionHeading";
 
 export default function HomePage() {
@@ -19,7 +20,6 @@ export default function HomePage() {
 
   return (
     <main>
-      {/* 1. Hero */}
       <section className="relative overflow-hidden border-b border-border">
         <div className="pointer-events-none absolute -left-20 top-10 h-72 w-72 rounded-full bg-highlight/10 blur-3xl" />
         <div className="pointer-events-none absolute -right-10 bottom-0 h-80 w-80 rounded-full bg-accent/10 blur-3xl" />
@@ -80,7 +80,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. Core product lines */}
       <section className="border-b border-border bg-gradient-to-b from-primary via-primary to-soft/40">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 lg:px-8">
           <SectionHeading
@@ -144,7 +143,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. Featured VPS — VpsPlanCard */}
       <section className="border-b border-border py-16">
         <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
           <SectionHeading
@@ -170,28 +168,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. Web hosting */}
       <section className="border-b border-border bg-surface/50 py-16">
         <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
-          <SectionHeading title="Web Hosting" description="Shared & Managed WordPress" />
+          <SectionHeading
+            title="Web Hosting"
+            description="Shared & Managed WordPress"
+            action={
+              <Link
+                href="/web-hosting"
+                className="text-[13px] font-semibold text-highlight hover:underline"
+              >
+                All plans →
+              </Link>
+            }
+          />
           <div className="grid gap-4 md:grid-cols-3">
             {hosting.map((plan) => (
-              <div key={plan.id} className="lh-card p-6">
-                <h3 className="text-[15px] font-semibold text-ink">{plan.name}</h3>
-                <p className="mt-4 text-2xl font-bold text-highlight">
-                  {plan.pricing.monthly ? formatZAR(plan.pricing.monthly) : "—"}
-                  <span className="text-[13px] font-normal text-ink-dim">/mo</span>
-                </p>
-                <p className="mt-2 line-clamp-2 text-[13px] text-ink-muted">
-                  {plan.description}
-                </p>
-                <Link
-                  href="/web-hosting"
-                  className="mt-5 inline-block text-[13px] font-semibold text-highlight"
-                >
-                  Details →
-                </Link>
-              </div>
+              <HostingPlanCard key={plan.id} plan={plan} />
             ))}
           </div>
         </div>
@@ -199,7 +192,6 @@ export default function HomePage() {
 
       <HowItWorks />
 
-      {/* Trust */}
       <section className="border-b border-border py-16">
         <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
           <h2 className="text-center text-xl font-bold text-ink sm:text-2xl">
