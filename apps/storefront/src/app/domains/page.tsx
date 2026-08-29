@@ -16,17 +16,35 @@ export default function DomainsPage() {
   return (
     <main>
       <PageHeader
-        badge="DOMAINS · SOUTH AFRICA"
+        badge="Domains · South Africa"
         title="Domain registration"
         highlight="in South Africa"
         description={`Register your .co.za from ${coza?.pricing.registration ? formatZAR(coza.pricing.registration) : "R149"} per year. Search availability, compare extensions, keep DNS next to hosting and VPS.`}
         breadcrumb={[{ label: "Domains" }]}
         cta={{ text: "Search domain", href: "#search" }}
         ctaSecondary={{ text: "Cloud VPS", href: "/cloud-vps" }}
+        stats={[
+          { value: String(domains.length), label: "Extensions" },
+          { value: "ZAR", label: "Billing" },
+          { value: "DNS", label: "Included" },
+          { value: "SAST", label: "Support" },
+        ]}
       />
 
-      <section id="search" className="border-b border-border">
-        <div className="lh-container py-10">
+      <section id="search" className="border-b border-white/5 bg-gradient-to-b from-primary to-soft/30">
+        <div className="lh-container py-12 md:py-16">
+          <div className="mb-8 text-center">
+            <span className="mb-3 inline-block rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-sm font-bold text-accent">
+              Search
+            </span>
+            <h2 className="text-3xl font-bold text-white md:text-4xl">
+              Find your{" "}
+              <span className="bg-gradient-to-r from-highlight to-accent bg-clip-text text-transparent">
+                domain
+              </span>
+            </h2>
+          </div>
+
           <form
             action="/domains"
             className="mx-auto flex max-w-xl flex-col gap-2 sm:flex-row"
@@ -35,9 +53,12 @@ export default function DomainsPage() {
               type="text"
               name="q"
               placeholder="yourbusiness.co.za"
-              className="lh-input flex-1"
+              className="h-12 flex-1 rounded-xl border border-white/15 bg-white/5 px-4 text-sm text-white outline-none placeholder:text-white/40 focus:border-highlight/50"
             />
-            <button type="submit" className="lh-btn-primary whitespace-nowrap">
+            <button
+              type="submit"
+              className="h-12 shrink-0 rounded-xl bg-gradient-to-r from-highlight to-accent px-6 text-sm font-semibold text-white"
+            >
               Search domain
             </button>
           </form>
@@ -46,7 +67,7 @@ export default function DomainsPage() {
             {domains.map((d) => (
               <span
                 key={d.id}
-                className="rounded-full border border-border bg-soft px-3 py-1 text-[12px] text-ink-secondary"
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80"
               >
                 <span className="font-semibold text-highlight">
                   {d.tld ?? d.name}
@@ -60,75 +81,85 @@ export default function DomainsPage() {
         </div>
       </section>
 
-      <section className="lh-container py-12">
-        <div className="mb-6 text-center sm:text-left">
-          <h2 className="text-lg font-bold text-ink">Browse extensions</h2>
-          <p className="mt-1 text-[13px] text-ink-muted">
-            Registration · transfer · renewal — per year, ZAR
-          </p>
-        </div>
+      <section className="py-16 md:py-24">
+        <div className="lh-container">
+          <div className="mb-10 text-center md:text-left">
+            <span className="mb-3 inline-block rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-sm font-bold text-accent">
+              Pricing
+            </span>
+            <h2 className="text-3xl font-bold text-white md:text-4xl">
+              Browse{" "}
+              <span className="bg-gradient-to-r from-highlight to-accent bg-clip-text text-transparent">
+                extensions
+              </span>
+            </h2>
+            <p className="mt-2 text-gray-400">
+              Registration · transfer · renewal — per year, ZAR
+            </p>
+          </div>
 
-        <div className="overflow-hidden rounded-2xl border border-border">
-          <table className="w-full text-left text-[13px]">
-            <thead className="border-b border-border bg-soft/80 text-[11px] uppercase tracking-wider text-ink-dim">
-              <tr>
-                <th className="px-5 py-3.5 font-medium">Extension</th>
-                <th className="hidden px-5 py-3.5 font-medium sm:table-cell">
-                  Category
-                </th>
-                <th className="px-5 py-3.5 font-medium">Register</th>
-                <th className="px-5 py-3.5 font-medium">Transfer</th>
-                <th className="px-5 py-3.5 font-medium">Renewal</th>
-                <th className="px-5 py-3.5 font-medium" />
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {domains.map((domain) => {
-                const category =
-                  domain.tld?.includes(".za") || domain.slug.includes("za")
-                    ? "Africa"
-                    : "Global";
-                return (
-                  <tr
-                    key={domain.id}
-                    className="bg-surface/40 transition hover:bg-soft/60"
-                  >
-                    <td className="px-5 py-4">
-                      <span className="font-semibold text-ink">
-                        {domain.tld ?? domain.name}
-                      </span>
-                    </td>
-                    <td className="hidden px-5 py-4 text-ink-dim sm:table-cell">
-                      {category}
-                    </td>
-                    <td className="px-5 py-4 font-medium text-ink">
-                      {domain.pricing.registration
-                        ? formatZAR(domain.pricing.registration)
-                        : "—"}
-                    </td>
-                    <td className="px-5 py-4 text-ink-muted">
-                      {domain.pricing.transfer
-                        ? formatZAR(domain.pricing.transfer)
-                        : "—"}
-                    </td>
-                    <td className="px-5 py-4 text-ink-muted">
-                      {domain.pricing.renewal
-                        ? formatZAR(domain.pricing.renewal)
-                        : "—"}
-                    </td>
-                    <td className="px-5 py-4 text-right">
-                      <Link
-                        href={`/domains?tld=${encodeURIComponent(domain.slug)}`}
-                        className="text-[12px] font-semibold text-highlight"
-                      >
-                        Register
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface/40 shadow-xl">
+            <table className="w-full text-left text-sm">
+              <thead className="border-b border-white/10 bg-white/5 text-[11px] uppercase tracking-wider text-white/50">
+                <tr>
+                  <th className="px-5 py-4 font-medium">Extension</th>
+                  <th className="hidden px-5 py-4 font-medium sm:table-cell">
+                    Category
+                  </th>
+                  <th className="px-5 py-4 font-medium">Register</th>
+                  <th className="px-5 py-4 font-medium">Transfer</th>
+                  <th className="px-5 py-4 font-medium">Renewal</th>
+                  <th className="px-5 py-4 font-medium" />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {domains.map((domain) => {
+                  const category =
+                    domain.tld?.includes(".za") || domain.slug.includes("za")
+                      ? "Africa"
+                      : "Global";
+                  return (
+                    <tr
+                      key={domain.id}
+                      className="transition hover:bg-white/5"
+                    >
+                      <td className="px-5 py-4">
+                        <span className="font-semibold text-white">
+                          {domain.tld ?? domain.name}
+                        </span>
+                      </td>
+                      <td className="hidden px-5 py-4 text-white/40 sm:table-cell">
+                        {category}
+                      </td>
+                      <td className="px-5 py-4 font-medium text-white">
+                        {domain.pricing.registration
+                          ? formatZAR(domain.pricing.registration)
+                          : "—"}
+                      </td>
+                      <td className="px-5 py-4 text-white/50">
+                        {domain.pricing.transfer
+                          ? formatZAR(domain.pricing.transfer)
+                          : "—"}
+                      </td>
+                      <td className="px-5 py-4 text-white/50">
+                        {domain.pricing.renewal
+                          ? formatZAR(domain.pricing.renewal)
+                          : "—"}
+                      </td>
+                      <td className="px-5 py-4 text-right">
+                        <Link
+                          href={`/domains?tld=${encodeURIComponent(domain.slug)}`}
+                          className="text-sm font-semibold text-highlight hover:underline"
+                        >
+                          Register
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
