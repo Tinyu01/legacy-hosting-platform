@@ -17,8 +17,8 @@ const primaryServices = [
   { href: "/domains", label: "Domains" },
   { href: "/web-hosting", label: "Web Hosting" },
   { href: "/cloud-vps", label: "Cloud VPS" },
-  { href: "/web-hosting", label: "Email" },
-  { href: "/cloud-vps", label: "Dedicated" },
+  { href: "/email", label: "Email" },
+  { href: "/dedicated-servers", label: "Dedicated" },
 ];
 
 export function Header() {
@@ -100,6 +100,12 @@ export function Header() {
                 </button>
                 <div className="invisible absolute left-0 top-full z-50 w-52 pt-2 opacity-0 transition group-hover:visible group-hover:opacity-100">
                   <div className="rounded-xl border border-white/10 bg-surface py-2 shadow-xl">
+                    <Link
+                      href="/about"
+                      className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
+                    >
+                      About us
+                    </Link>
                     <a
                       href="https://tech.malenglegacy.co.za"
                       className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
@@ -112,12 +118,6 @@ export function Header() {
                     >
                       Group website
                     </a>
-                    <Link
-                      href="/"
-                      className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
-                    >
-                      About us
-                    </Link>
                   </div>
                 </div>
               </div>
