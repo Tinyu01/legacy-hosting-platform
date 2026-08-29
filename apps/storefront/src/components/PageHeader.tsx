@@ -14,7 +14,6 @@ interface PageHeaderProps {
   breadcrumb?: BreadcrumbItem[];
   cta?: { text: string; href: string };
   ctaSecondary?: { text: string; href: string };
-  /** Optional slot under description (e.g. HostAfrica-style domain search) */
   children?: ReactNode;
 }
 
@@ -32,7 +31,7 @@ export function PageHeader({
     <section className="relative overflow-hidden border-b border-border">
       <div className="pointer-events-none absolute left-1/2 top-[-40%] h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-highlight/10 blur-3xl" />
 
-      <div className="relative mx-auto max-w-6xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <div className="lh-container relative py-12 sm:py-16">
         {breadcrumb.length > 0 && (
           <nav aria-label="Breadcrumb" className="mb-6">
             <ol className="flex flex-wrap items-center justify-center gap-1.5 text-[12px] text-ink-dim">
