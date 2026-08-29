@@ -36,8 +36,21 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/cloud-vps" className="hover:text-ink-secondary">
-                  Managed VPS
+                <Link href="/email" className="hover:text-ink-secondary">
+                  Email
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dedicated-servers"
+                  className="hover:text-ink-secondary"
+                >
+                  Dedicated Servers
+                </Link>
+              </li>
+              <li>
+                <Link href="/pricing" className="hover:text-ink-secondary">
+                  Pricing
                 </Link>
               </li>
             </ul>
@@ -57,10 +70,9 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <span className="cursor-default">Billing</span>
-              </li>
-              <li>
-                <span className="cursor-default">Support tickets</span>
+                <Link href="/about" className="hover:text-ink-secondary">
+                  About us
+                </Link>
               </li>
             </ul>
           </div>
@@ -79,10 +91,17 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <span className="cursor-default">Knowledge base</span>
+                <Link
+                  href="/knowledge-base"
+                  className="hover:text-ink-secondary"
+                >
+                  Knowledge base
+                </Link>
               </li>
               <li>
-                <span className="cursor-default">Server status</span>
+                <Link href="/status" className="hover:text-ink-secondary">
+                  Server status
+                </Link>
               </li>
             </ul>
           </div>
@@ -92,10 +111,26 @@ export function Footer() {
               Legal
             </h4>
             <ul className="space-y-2.5 text-[13px] text-ink-dim">
-              <li>Terms of service</li>
-              <li>Privacy policy</li>
-              <li>SLA</li>
-              <li>Abuse policy</li>
+              <li>
+                <Link href="/legal/terms" className="hover:text-ink-secondary">
+                  Terms of service
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/privacy" className="hover:text-ink-secondary">
+                  Privacy policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/sla" className="hover:text-ink-secondary">
+                  SLA
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/abuse" className="hover:text-ink-secondary">
+                  Abuse policy
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
