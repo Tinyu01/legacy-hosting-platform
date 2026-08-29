@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 
 function ChevronDown() {
   return (
@@ -57,53 +58,22 @@ function IconLayers() {
 }
 
 const products = [
-  {
-    href: "/domains",
-    title: "Domains",
-    desc: "Register, transfer & DNS",
-    icon: <IconGlobe />,
-  },
-  {
-    href: "/web-hosting",
-    title: "Web Hosting",
-    desc: "Shared & Managed WordPress",
-    icon: <IconServer />,
-  },
-  {
-    href: "/cloud-vps",
-    title: "Cloud VPS",
-    desc: "Root access, NVMe, snapshots",
-    icon: <IconCloud />,
-  },
-  {
-    href: "/cloud-vps",
-    title: "Managed VPS",
-    desc: "Patching & monitoring add-on",
-    icon: <IconShield />,
-  },
-  {
-    href: "/web-hosting",
-    title: "Email",
-    desc: "Business mailboxes",
-    icon: <IconMail />,
-  },
-  {
-    href: "/cloud-vps",
-    title: "Infrastructure",
-    desc: "Backups, SSL, DNS",
-    icon: <IconLayers />,
-  },
+  { href: "/domains", title: "Domains", desc: "Register, transfer & DNS", icon: <IconGlobe /> },
+  { href: "/web-hosting", title: "Web Hosting", desc: "Shared & Managed WordPress", icon: <IconServer /> },
+  { href: "/cloud-vps", title: "Cloud VPS", desc: "Root access, NVMe, snapshots", icon: <IconCloud /> },
+  { href: "/cloud-vps", title: "Managed VPS", desc: "Patching & monitoring add-on", icon: <IconShield /> },
+  { href: "/web-hosting", title: "Email", desc: "Business mailboxes", icon: <IconMail /> },
+  { href: "/cloud-vps", title: "Infrastructure", desc: "Backups, SSL, DNS", icon: <IconLayers /> },
 ];
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-primary/95 backdrop-blur-md">
-      {/* Top bar */}
-      <div className="hidden border-b border-white/5 bg-surface/80 sm:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-1.5 text-[11px] text-gray-500 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 border-b border-border bg-primary/90 backdrop-blur-md">
+      <div className="hidden border-b border-border bg-surface/80 sm:block">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-1.5 text-[11px] text-ink-dim sm:px-6 lg:px-8">
           <span>Part of Maleng Legacy Group · tech.malenglegacy.co.za</span>
           <div className="flex items-center gap-4">
-            <span>ZAR · VAT inclusive</span>
+            <span>ZAR · VAT inclusive where applicable</span>
             <a href="https://cloud.malenglegacy.co.za" className="hover:text-highlight">
               Client Portal
             </a>
@@ -113,41 +83,40 @@ export function Header() {
 
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
-          <Link href="/" className="text-[16px] font-bold tracking-tight text-white">
+          <Link href="/" className="text-[16px] font-bold tracking-tight text-ink">
             Legacy <span className="text-highlight">Hosting</span>
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
-            {/* Products mega */}
             <div className="group relative">
               <button
                 type="button"
-                className="flex items-center gap-1 rounded-lg px-3 py-2 text-[13px] font-medium text-gray-300 transition hover:bg-white/5 hover:text-white"
+                className="flex items-center gap-1 rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-ink"
               >
                 Products
                 <ChevronDown />
               </button>
               <div className="invisible absolute left-0 top-full z-50 w-[520px] pt-2 opacity-0 transition group-hover:visible group-hover:opacity-100">
-                <div className="rounded-2xl border border-white/10 bg-surface p-3 shadow-2xl shadow-black/40">
+                <div className="rounded-2xl border border-border bg-surface p-3 shadow-2xl">
                   <div className="grid grid-cols-2 gap-1">
                     {products.map((p) => (
                       <Link
                         key={p.title}
                         href={p.href}
-                        className="flex gap-3 rounded-xl p-3 transition hover:bg-white/5"
+                        className="flex gap-3 rounded-xl p-3 transition hover:bg-soft"
                       >
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-highlight/10">
                           {p.icon}
                         </div>
                         <div>
-                          <p className="text-[13px] font-semibold text-white">{p.title}</p>
-                          <p className="text-[12px] text-gray-500">{p.desc}</p>
+                          <p className="text-[13px] font-semibold text-ink">{p.title}</p>
+                          <p className="text-[12px] text-ink-dim">{p.desc}</p>
                         </div>
                       </Link>
                     ))}
                   </div>
-                  <div className="mt-2 border-t border-white/5 px-3 py-2">
-                    <Link href="/cloud-vps" className="text-[12px] font-semibold text-highlight hover:text-highlight/80">
+                  <div className="mt-2 border-t border-border px-3 py-2">
+                    <Link href="/cloud-vps" className="text-[12px] font-semibold text-highlight">
                       View all Cloud VPS plans →
                     </Link>
                   </div>
@@ -155,52 +124,33 @@ export function Header() {
               </div>
             </div>
 
-            <Link
-              href="/domains"
-              className="rounded-lg px-3 py-2 text-[13px] font-medium text-gray-300 transition hover:bg-white/5 hover:text-white"
-            >
+            <Link href="/domains" className="rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-ink">
               Domains
             </Link>
-            <Link
-              href="/web-hosting"
-              className="rounded-lg px-3 py-2 text-[13px] font-medium text-gray-300 transition hover:bg-white/5 hover:text-white"
-            >
+            <Link href="/web-hosting" className="rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-ink">
               Web Hosting
             </Link>
-            <Link
-              href="/cloud-vps"
-              className="rounded-lg px-3 py-2 text-[13px] font-medium text-gray-300 transition hover:bg-white/5 hover:text-white"
-            >
+            <Link href="/cloud-vps" className="rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-ink">
               Cloud VPS
             </Link>
 
-            {/* Company */}
             <div className="group relative">
               <button
                 type="button"
-                className="flex items-center gap-1 rounded-lg px-3 py-2 text-[13px] font-medium text-gray-300 transition hover:bg-white/5 hover:text-white"
+                className="flex items-center gap-1 rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-ink"
               >
                 Company
                 <ChevronDown />
               </button>
               <div className="invisible absolute left-0 top-full z-50 w-56 pt-2 opacity-0 transition group-hover:visible group-hover:opacity-100">
-                <div className="rounded-xl border border-white/10 bg-surface py-2 shadow-xl">
-                  <a
-                    href="https://tech.malenglegacy.co.za"
-                    className="block px-4 py-2 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white"
-                  >
+                <div className="rounded-xl border border-border bg-surface py-2 shadow-xl">
+                  <a href="https://tech.malenglegacy.co.za" className="block px-4 py-2 text-[13px] text-ink-secondary hover:bg-soft hover:text-ink">
                     Maleng Legacy Tech
                   </a>
-                  <a
-                    href="https://malenglegacy.co.za"
-                    className="block px-4 py-2 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white"
-                  >
+                  <a href="https://malenglegacy.co.za" className="block px-4 py-2 text-[13px] text-ink-secondary hover:bg-soft hover:text-ink">
                     Maleng Legacy Group
                   </a>
-                  <Link
-                    href="/"
-                    className="block px-4 py-2 text-[13px] text-gray-300 hover:bg-white/5 hover:text-white"
-                  >
+                  <Link href="/" className="block px-4 py-2 text-[13px] text-ink-secondary hover:bg-soft hover:text-ink">
                     About Legacy Hosting
                   </Link>
                 </div>
@@ -210,9 +160,10 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           <a
             href="https://cloud.malenglegacy.co.za"
-            className="hidden text-[13px] font-medium text-gray-400 transition hover:text-white sm:inline"
+            className="hidden text-[13px] font-medium text-ink-muted transition hover:text-ink sm:inline"
           >
             Login
           </a>
@@ -222,16 +173,15 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile product strip */}
       <nav
-        className="flex gap-1 overflow-x-auto border-t border-white/5 px-4 py-2 lg:hidden"
+        className="flex gap-1 overflow-x-auto border-t border-border px-4 py-2 lg:hidden"
         aria-label="Products"
       >
         {["/domains", "/web-hosting", "/cloud-vps"].map((href, i) => (
           <Link
             key={href}
             href={href}
-            className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[12px] font-medium text-gray-300"
+            className="shrink-0 rounded-full border border-border bg-soft px-3 py-1.5 text-[12px] font-medium text-ink-secondary"
           >
             {["Domains", "Web Hosting", "Cloud VPS"][i]}
           </Link>
