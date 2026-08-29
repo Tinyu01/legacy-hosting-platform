@@ -25,8 +25,8 @@ export default function DomainsPage() {
         ctaSecondary={{ text: "Cloud VPS", href: "/cloud-vps" }}
       />
 
-      <section id="search" className="border-b border-white/10">
-        <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6 lg:px-8">
+      <section id="search" className="border-b border-border">
+        <div className="lh-container py-10">
           <form
             action="/domains"
             className="mx-auto flex max-w-xl flex-col gap-2 sm:flex-row"
@@ -46,7 +46,7 @@ export default function DomainsPage() {
             {domains.map((d) => (
               <span
                 key={d.id}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[12px] text-gray-300"
+                className="rounded-full border border-border bg-soft px-3 py-1 text-[12px] text-ink-secondary"
               >
                 <span className="font-semibold text-highlight">
                   {d.tld ?? d.name}
@@ -60,17 +60,17 @@ export default function DomainsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-12 sm:px-6 lg:px-8">
+      <section className="lh-container py-12">
         <div className="mb-6 text-center sm:text-left">
-          <h2 className="text-lg font-bold text-white">Browse extensions</h2>
-          <p className="mt-1 text-[13px] text-gray-500">
+          <h2 className="text-lg font-bold text-ink">Browse extensions</h2>
+          <p className="mt-1 text-[13px] text-ink-muted">
             Registration · transfer · renewal — per year, ZAR
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-white/10">
+        <div className="overflow-hidden rounded-2xl border border-border">
           <table className="w-full text-left text-[13px]">
-            <thead className="border-b border-white/10 bg-soft/80 text-[11px] uppercase tracking-wider text-gray-500">
+            <thead className="border-b border-border bg-soft/80 text-[11px] uppercase tracking-wider text-ink-dim">
               <tr>
                 <th className="px-5 py-3.5 font-medium">Extension</th>
                 <th className="hidden px-5 py-3.5 font-medium sm:table-cell">
@@ -82,7 +82,7 @@ export default function DomainsPage() {
                 <th className="px-5 py-3.5 font-medium" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-border">
               {domains.map((domain) => {
                 const category =
                   domain.tld?.includes(".za") || domain.slug.includes("za")
@@ -94,24 +94,24 @@ export default function DomainsPage() {
                     className="bg-surface/40 transition hover:bg-soft/60"
                   >
                     <td className="px-5 py-4">
-                      <span className="font-semibold text-white">
+                      <span className="font-semibold text-ink">
                         {domain.tld ?? domain.name}
                       </span>
                     </td>
-                    <td className="hidden px-5 py-4 text-gray-500 sm:table-cell">
+                    <td className="hidden px-5 py-4 text-ink-dim sm:table-cell">
                       {category}
                     </td>
-                    <td className="px-5 py-4 font-medium text-white">
+                    <td className="px-5 py-4 font-medium text-ink">
                       {domain.pricing.registration
                         ? formatZAR(domain.pricing.registration)
                         : "—"}
                     </td>
-                    <td className="px-5 py-4 text-gray-400">
+                    <td className="px-5 py-4 text-ink-muted">
                       {domain.pricing.transfer
                         ? formatZAR(domain.pricing.transfer)
                         : "—"}
                     </td>
-                    <td className="px-5 py-4 text-gray-400">
+                    <td className="px-5 py-4 text-ink-muted">
                       {domain.pricing.renewal
                         ? formatZAR(domain.pricing.renewal)
                         : "—"}
