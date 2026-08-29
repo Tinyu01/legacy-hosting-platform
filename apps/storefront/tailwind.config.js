@@ -4,13 +4,24 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#04132a",
+        primary: "var(--bg-primary)",
+        surface: "var(--bg-surface)",
+        soft: "var(--bg-soft)",
+        raised: "var(--bg-raised)",
+        highlight: "var(--highlight)",
+        accent: "var(--accent)",
+        gold: "var(--gold)",
         secondary: "#0f4a82",
-        accent: "#f4b41a",
-        highlight: "#14d2d1",
-        gold: "#d4af37",
-        surface: "#071224",
-        soft: "#0d1b34",
+        border: {
+          DEFAULT: "var(--border-color)",
+          strong: "var(--border-strong)",
+        },
+        ink: {
+          DEFAULT: "var(--text-primary)",
+          secondary: "var(--text-secondary)",
+          muted: "var(--text-muted)",
+          dim: "var(--text-dim)",
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
