@@ -55,8 +55,13 @@
 }
 
 @layer components {
+  /*
+   * Layout container — aligned with
+   * maleng-legacy-group-websites / 14_Maleng_Legacy_Tech_and_Consulting:
+   *   max-w-7xl mx-auto px-6
+   */
   .lh-container {
-    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-6;
   }
 
   .lh-btn-primary {
