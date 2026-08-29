@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { formatZAR, getActiveVpsProducts } from "../../lib/catalog";
+import { PageHeader } from "../../components/PageHeader";
+import { FinalCTA } from "../../components/FinalCTA";
 
 export const metadata = {
   title: "Cloud VPS",
   description:
-    "Scalable cloud VPS with NVMe storage, root access and ZAR billing. Configure and deploy in minutes.",
+    "Scalable cloud VPS with NVMe storage, root access and ZAR billing.",
 };
 
 export default function CloudVpsPage() {
@@ -12,21 +14,24 @@ export default function CloudVpsPage() {
 
   return (
     <main>
-      <section className="border-b border-white/10">
-        <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:px-8">
-          <p className="lh-section-label">Cloud VPS</p>
-          <h1 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Cloud VPS — fast, flexible, priced in ZAR
-          </h1>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-gray-400">
-            Scalable virtual servers for developers and businesses. Quick setup,
-            consistent performance, full root access. Choose a plan and configure
-            location, OS and add-ons.
+      <PageHeader
+        badge="CLOUD VPS"
+        title="Cloud servers"
+        highlight="priced for operators"
+        description="Scalable virtual servers with root access, NVMe storage and snapshots. Configure location, OS and add-ons — billed in ZAR."
+        breadcrumb={[{ label: "Cloud VPS" }]}
+        cta={{ text: "Compare plans", href: "#plans" }}
+        ctaSecondary={{ text: "Search domain", href: "/domains" }}
+      />
+
+      <section id="plans" className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:px-8">
+        <div className="mb-10 text-center">
+          <h2 className="text-2xl font-bold text-white">Choose your plan</h2>
+          <p className="mt-2 text-[14px] text-gray-400">
+            Clear specs. No supplier branding. Get Started opens configure.
           </p>
         </div>
-      </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {plans.map((plan) => {
             const res = plan.resources as {
@@ -42,9 +47,7 @@ export default function CloudVpsPage() {
               <article
                 key={plan.id}
                 className={`relative flex flex-col overflow-hidden p-6 transition ${
-                  featured
-                    ? "lh-card-featured"
-                    : "lh-card hover:border-highlight/30"
+                  featured ? "lh-card-featured" : "lh-card hover:border-highlight/30"
                 }`}
               >
                 {featured && (
@@ -60,7 +63,7 @@ export default function CloudVpsPage() {
                   )}
                 </div>
                 <p className="text-[12px] font-medium uppercase tracking-wider text-gray-500">
-                  {plan.marketing?.label ?? "Linux Cloud"}
+                  Linux Cloud
                 </p>
 
                 <div className="mt-6 rounded-xl border border-highlight/20 bg-highlight/10 p-4">
@@ -111,21 +114,9 @@ export default function CloudVpsPage() {
                   </li>
                   <li className="flex justify-between">
                     <span className="text-gray-500">IPv4</span>
-                    <span className="font-semibold text-white">
-                      {res?.ipv4 ?? 1}
-                    </span>
+                    <span className="font-semibold text-white">{res?.ipv4 ?? 1}</span>
                   </li>
                 </ul>
-
-                {(plan.features as string[] | undefined)?.length ? (
-                  <ul className="mt-5 space-y-1.5 text-[12px] text-gray-400">
-                    {(plan.features as string[]).slice(0, 4).map((f) => (
-                      <li key={f} className="flex gap-2">
-                        <span className="text-highlight">✓</span> {f}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
 
                 <Link
                   href={`/cloud-vps/${plan.slug}`}
@@ -141,12 +132,9 @@ export default function CloudVpsPage() {
             );
           })}
         </div>
-
-        <p className="mt-10 text-center text-[12px] text-gray-500">
-          Snapshots, cloud firewall and metrics included. Managed Service and
-          daily backups available at configure.
-        </p>
       </section>
+
+      <FinalCTA />
     </main>
   );
 }
