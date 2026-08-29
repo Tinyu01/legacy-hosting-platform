@@ -24,7 +24,7 @@ export default function CloudVpsPage() {
         ctaSecondary={{ text: "Search domain", href: "/domains" }}
       />
 
-      <section id="plans" className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:px-8">
+      <section id="plans" className="lh-container py-14">
         <div className="mb-10 text-center">
           <h2 className="text-2xl font-bold text-ink">Choose your plan</h2>
           <p className="mt-2 text-[14px] text-ink-muted">
