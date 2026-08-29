@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { formatZAR, getActiveDomainProducts } from "../../lib/catalog";
+import { PageHeader } from "../../components/PageHeader";
+import { FinalCTA } from "../../components/FinalCTA";
 
 export const metadata = {
   title: "Domains",
   description:
-    "Register and transfer domains in South Africa. .co.za, .com, .net and more — ZAR pricing.",
+    "Register and transfer domains in South Africa. .co.za, .com and more — ZAR pricing.",
 };
 
 export default function DomainsPage() {
@@ -13,24 +15,21 @@ export default function DomainsPage() {
 
   return (
     <main>
-      <section className="border-b border-white/10">
-        <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:px-8">
-          <p className="lh-section-label">Domains · South Africa</p>
-          <h1 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Domain registration in South Africa
-          </h1>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-gray-400">
-            Register your .co.za domain from{" "}
-            {coza?.pricing.registration
-              ? formatZAR(coza.pricing.registration)
-              : "R149"}{" "}
-            per year. Search availability, compare extensions, and keep DNS next
-            to your hosting and VPS.
-          </p>
+      <PageHeader
+        badge="DOMAINS · SOUTH AFRICA"
+        title="Domain registration"
+        highlight="in South Africa"
+        description={`Register your .co.za from ${coza?.pricing.registration ? formatZAR(coza.pricing.registration) : "R149"} per year. Search availability, compare extensions, keep DNS next to hosting and VPS.`}
+        breadcrumb={[{ label: "Domains" }]}
+        cta={{ text: "Search domain", href: "#search" }}
+        ctaSecondary={{ text: "Cloud VPS", href: "/cloud-vps" }}
+      />
 
+      <section id="search" className="border-b border-white/10">
+        <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6 lg:px-8">
           <form
             action="/domains"
-            className="mt-8 flex max-w-xl flex-col gap-2 sm:flex-row"
+            className="mx-auto flex max-w-xl flex-col gap-2 sm:flex-row"
           >
             <input
               type="text"
@@ -43,7 +42,7 @@ export default function DomainsPage() {
             </button>
           </form>
 
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-6 flex flex-wrap justify-center gap-2">
             {domains.map((d) => (
               <span
                 key={d.id}
@@ -58,21 +57,14 @@ export default function DomainsPage() {
               </span>
             ))}
           </div>
-
-          <p className="mt-4 text-[12px] text-gray-500">
-            Already own a domain?{" "}
-            <span className="text-gray-400">Transfer it into Legacy Hosting.</span>
-          </p>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-5 py-12 sm:px-6 lg:px-8">
-        <div className="mb-6">
-          <h2 className="text-lg font-bold text-white">
-            Browse domain extensions
-          </h2>
+        <div className="mb-6 text-center sm:text-left">
+          <h2 className="text-lg font-bold text-white">Browse extensions</h2>
           <p className="mt-1 text-[13px] text-gray-500">
-            Registration, transfer and renewal — per year, ZAR
+            Registration · transfer · renewal — per year, ZAR
           </p>
         </div>
 
@@ -102,16 +94,9 @@ export default function DomainsPage() {
                     className="bg-surface/40 transition hover:bg-soft/60"
                   >
                     <td className="px-5 py-4">
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-white">
-                          {domain.tld ?? domain.name}
-                        </span>
-                        {domain.marketing?.badge && (
-                          <span className="rounded bg-highlight/15 px-1.5 py-0.5 text-[10px] font-bold text-highlight">
-                            {domain.marketing.badge}
-                          </span>
-                        )}
-                      </div>
+                      <span className="font-semibold text-white">
+                        {domain.tld ?? domain.name}
+                      </span>
                     </td>
                     <td className="hidden px-5 py-4 text-gray-500 sm:table-cell">
                       {category}
@@ -134,7 +119,7 @@ export default function DomainsPage() {
                     <td className="px-5 py-4 text-right">
                       <Link
                         href={`/domains?tld=${encodeURIComponent(domain.slug)}`}
-                        className="text-[12px] font-semibold text-highlight hover:text-highlight/80"
+                        className="text-[12px] font-semibold text-highlight"
                       >
                         Register
                       </Link>
@@ -145,27 +130,9 @@ export default function DomainsPage() {
             </tbody>
           </table>
         </div>
-
-        <div className="mt-10 grid gap-6 border-t border-white/10 pt-10 sm:grid-cols-2">
-          <div className="lh-card p-5">
-            <h3 className="text-[14px] font-semibold text-white">
-              Transfer to Legacy Hosting
-            </h3>
-            <p className="mt-2 text-[13px] leading-relaxed text-gray-400">
-              Move DNS under the same account as your web hosting and Cloud VPS.
-              Auth code required for most TLDs.
-            </p>
-          </div>
-          <div className="lh-card p-5">
-            <h3 className="text-[14px] font-semibold text-white">Included</h3>
-            <ul className="mt-2 space-y-1.5 text-[13px] text-gray-400">
-              <li>✓ DNS management</li>
-              <li>✓ Renewal reminders</li>
-              <li>✓ One portal with hosting and VPS</li>
-            </ul>
-          </div>
-        </div>
       </section>
+
+      <FinalCTA />
     </main>
   );
 }
