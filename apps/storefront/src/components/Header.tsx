@@ -24,11 +24,9 @@ const primaryServices = [
 export function Header() {
   return (
     <>
-      {/* Tech-style top gradient line */}
       <div className="fixed left-0 right-0 top-0 z-[60] h-1 bg-gradient-to-r from-highlight to-accent" />
 
       <header className="sticky top-0 z-50 border-b border-white/5 bg-primary/80 backdrop-blur-md">
-        {/* Utility bar */}
         <div className="hidden border-b border-white/5 bg-secondary/50 sm:block">
           <div className="lh-shell flex h-10 items-center justify-between text-[13px] text-gray-400">
             <div className="flex items-center gap-4">
@@ -53,7 +51,6 @@ export function Header() {
           </div>
         </div>
 
-        {/* Main nav — Tech: mx-auto px-6 full width */}
         <div className="lh-shell flex h-[4.25rem] items-center justify-between">
           <div className="flex min-w-0 items-center gap-6 lg:gap-10">
             <Link href="/" className="flex shrink-0 items-center gap-3">
@@ -86,7 +83,7 @@ export function Header() {
               ))}
 
               <Link
-                href="/cloud-vps"
+                href="/pricing"
                 className="group relative rounded-lg px-3.5 py-2 text-base font-medium text-gray-300 transition hover:bg-white/5 hover:text-white"
               >
                 Pricing
@@ -144,12 +141,11 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile services chips */}
         <nav
           className="flex gap-1.5 overflow-x-auto border-t border-white/5 px-6 py-2.5 lg:hidden"
           aria-label="Services"
         >
-          {[...primaryServices, { href: "/cloud-vps", label: "Pricing" }].map(
+          {[...primaryServices, { href: "/pricing", label: "Pricing" }].map(
             (item) => (
               <Link
                 key={item.label}
