@@ -60,37 +60,37 @@ export default async function ConfigureVpsPage({ params }: Props) {
 
   return (
     <main>
-      <section className="border-b border-[#1c2129]">
-        <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6 lg:px-8">
+      <section className="border-b border-border">
+        <div className="lh-container py-10">
           <p className="lh-section-label">Configure</p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
             {plan.name}
           </h1>
-          <p className="mt-2 max-w-2xl text-[14px] text-[#8b93a1]">
+          <p className="mt-2 max-w-2xl text-[14px] text-ink-muted">
             {plan.description}
           </p>
-          <dl className="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-[13px] text-[#8b93a1]">
+          <dl className="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-[13px] text-ink-muted">
             <div>
-              <span className="text-[#5c6573]">vCPU </span>
-              <span className="font-medium text-white">{res?.vcpu ?? "—"}</span>
+              <span className="text-ink-dim">vCPU </span>
+              <span className="font-medium text-ink">{res?.vcpu ?? "—"}</span>
             </div>
             <div>
-              <span className="text-[#5c6573]">RAM </span>
-              <span className="font-medium text-white">
+              <span className="text-ink-dim">RAM </span>
+              <span className="font-medium text-ink">
                 {res?.ramGB ? `${res.ramGB} GB` : "—"}
               </span>
             </div>
             <div>
-              <span className="text-[#5c6573]">Storage </span>
-              <span className="font-medium text-white">
+              <span className="text-ink-dim">Storage </span>
+              <span className="font-medium text-ink">
                 {res?.storage
                   ? `${res.storage.sizeGB} GB ${res.storage.type}`
                   : "—"}
               </span>
             </div>
             <div>
-              <span className="text-[#5c6573]">From </span>
-              <span className="font-medium text-white">
+              <span className="text-ink-dim">From </span>
+              <span className="font-medium text-ink">
                 {plan.pricing.monthly
                   ? `${formatZAR(plan.pricing.monthly)}/mo`
                   : "—"}
@@ -100,7 +100,7 @@ export default async function ConfigureVpsPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-10 sm:px-6 lg:px-8">
+      <section className="lh-container py-10">
         <ConfigureVpsForm
           productSlug={plan.slug}
           productName={plan.name}
