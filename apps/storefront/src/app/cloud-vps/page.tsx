@@ -4,7 +4,7 @@ import { formatZAR, getActiveVpsProducts } from "../../lib/catalog";
 export const metadata = {
   title: "Cloud VPS",
   description:
-    "Virtual servers with NVMe storage, root access and ZAR billing. Deploy in minutes.",
+    "Scalable cloud VPS with NVMe storage, root access and ZAR billing. Configure and deploy in minutes.",
 };
 
 export default function CloudVpsPage() {
@@ -12,109 +12,139 @@ export default function CloudVpsPage() {
 
   return (
     <main>
-      <section className="border-b border-[#1c2129]">
+      <section className="border-b border-white/10">
         <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 lg:px-8">
           <p className="lh-section-label">Cloud VPS</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white">
-            Virtual servers
+          <h1 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Cloud VPS — fast, flexible, priced in ZAR
           </h1>
-          <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#8b93a1]">
-            NVMe storage, public IPv4, snapshots and full root access. Deploy
-            in minutes. Billed in ZAR — monthly or annually.
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-gray-400">
+            Scalable virtual servers for developers and businesses. Quick setup,
+            consistent performance, full root access. Choose a plan and configure
+            location, OS and add-ons.
           </p>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-5 py-12 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-lg border border-[#2a303c]">
-          <table className="w-full text-left text-[13px]">
-            <thead className="border-b border-[#2a303c] bg-[#11141a] text-[11px] uppercase tracking-wider text-[#5c6573]">
-              <tr>
-                <th className="px-5 py-3.5 font-medium">Plan</th>
-                <th className="hidden px-5 py-3.5 font-medium md:table-cell">
-                  vCPU
-                </th>
-                <th className="hidden px-5 py-3.5 font-medium md:table-cell">
-                  RAM
-                </th>
-                <th className="hidden px-5 py-3.5 font-medium lg:table-cell">
-                  Storage
-                </th>
-                <th className="hidden px-5 py-3.5 font-medium lg:table-cell">
-                  Traffic
-                </th>
-                <th className="px-5 py-3.5 font-medium">Monthly</th>
-                <th className="px-5 py-3.5 font-medium">Annual</th>
-                <th className="px-5 py-3.5 font-medium" />
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#1c2129]">
-              {plans.map((plan) => {
-                const res = plan.resources as {
-                  vcpu?: number;
-                  ramGB?: number;
-                  storage?: { sizeGB: number; type: string };
-                  traffic?: { includedTB: number };
-                } | undefined;
-                return (
-                  <tr
-                    key={plan.id}
-                    className="bg-[#0a0c10] transition hover:bg-[#11141a]"
-                  >
-                    <td className="px-5 py-4">
-                      <div className="flex flex-col gap-1">
-                        <span className="font-medium text-white">
-                          {plan.name}
-                        </span>
-                        {plan.marketing?.badge && (
-                          <span className="w-fit rounded bg-blue-600/15 px-1.5 py-0.5 text-[10px] font-semibold text-blue-400">
-                            {plan.marketing.badge}
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="hidden px-5 py-4 text-[#8b93a1] md:table-cell">
-                      {res?.vcpu ?? "—"}
-                    </td>
-                    <td className="hidden px-5 py-4 text-[#8b93a1] md:table-cell">
-                      {res?.ramGB ? `${res.ramGB} GB` : "—"}
-                    </td>
-                    <td className="hidden px-5 py-4 text-[#8b93a1] lg:table-cell">
-                      {res?.storage
-                        ? `${res.storage.sizeGB} GB ${res.storage.type}`
-                        : "—"}
-                    </td>
-                    <td className="hidden px-5 py-4 text-[#8b93a1] lg:table-cell">
-                      {res?.traffic ? `${res.traffic.includedTB} TB` : "—"}
-                    </td>
-                    <td className="px-5 py-4 font-medium text-white">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          {plans.map((plan) => {
+            const res = plan.resources as {
+              vcpu?: number;
+              ramGB?: number;
+              storage?: { sizeGB: number; type: string };
+              traffic?: { includedTB: number };
+              ipv4?: number;
+            } | undefined;
+            const featured = Boolean(plan.marketing?.featured);
+
+            return (
+              <article
+                key={plan.id}
+                className={`relative flex flex-col overflow-hidden p-6 transition ${
+                  featured
+                    ? "lh-card-featured"
+                    : "lh-card hover:border-highlight/30"
+                }`}
+              >
+                {featured && (
+                  <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-highlight via-accent to-highlight" />
+                )}
+
+                <div className="mb-1 flex items-start justify-between gap-2">
+                  <h2 className="text-lg font-bold text-white">{plan.name}</h2>
+                  {plan.marketing?.badge && (
+                    <span className="shrink-0 rounded-full border border-highlight/40 bg-highlight/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-highlight">
+                      {plan.marketing.badge}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[12px] font-medium uppercase tracking-wider text-gray-500">
+                  {plan.marketing?.label ?? "Linux Cloud"}
+                </p>
+
+                <div className="mt-6 rounded-xl border border-highlight/20 bg-highlight/10 p-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                    From
+                  </p>
+                  <p className="mt-1 flex items-baseline gap-1">
+                    <span className="text-4xl font-black tracking-tight text-highlight">
                       {plan.pricing.monthly
                         ? formatZAR(plan.pricing.monthly)
                         : "—"}
-                    </td>
-                    <td className="px-5 py-4 text-[#8b93a1]">
-                      {plan.pricing.annual
-                        ? formatZAR(plan.pricing.annual)
+                    </span>
+                    <span className="text-sm text-gray-400">/ month</span>
+                  </p>
+                  {plan.pricing.annual && (
+                    <p className="mt-1 text-[12px] text-gray-500">
+                      or {formatZAR(plan.pricing.annual)} / year
+                    </p>
+                  )}
+                </div>
+
+                <ul className="mt-6 flex-1 space-y-2.5 text-[13px] text-gray-300">
+                  <li className="flex justify-between border-b border-white/5 pb-2">
+                    <span className="text-gray-500">vCPU</span>
+                    <span className="font-semibold text-white">
+                      {res?.vcpu ?? "—"} cores
+                    </span>
+                  </li>
+                  <li className="flex justify-between border-b border-white/5 pb-2">
+                    <span className="text-gray-500">RAM</span>
+                    <span className="font-semibold text-white">
+                      {res?.ramGB ? `${res.ramGB} GB` : "—"}
+                    </span>
+                  </li>
+                  <li className="flex justify-between border-b border-white/5 pb-2">
+                    <span className="text-gray-500">Storage</span>
+                    <span className="font-semibold text-white">
+                      {res?.storage
+                        ? `${res.storage.sizeGB} GB ${res.storage.type}`
                         : "—"}
-                    </td>
-                    <td className="px-5 py-4 text-right">
-                      <Link
-                        href={`/cloud-vps/${plan.slug}`}
-                        className="inline-flex rounded-md bg-blue-600 px-3 py-1.5 text-[12px] font-semibold text-white transition hover:bg-blue-500"
-                      >
-                        Configure
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                    </span>
+                  </li>
+                  <li className="flex justify-between border-b border-white/5 pb-2">
+                    <span className="text-gray-500">Traffic</span>
+                    <span className="font-semibold text-white">
+                      {res?.traffic ? `${res.traffic.includedTB} TB` : "—"}
+                    </span>
+                  </li>
+                  <li className="flex justify-between">
+                    <span className="text-gray-500">IPv4</span>
+                    <span className="font-semibold text-white">
+                      {res?.ipv4 ?? 1}
+                    </span>
+                  </li>
+                </ul>
+
+                {(plan.features as string[] | undefined)?.length ? (
+                  <ul className="mt-5 space-y-1.5 text-[12px] text-gray-400">
+                    {(plan.features as string[]).slice(0, 4).map((f) => (
+                      <li key={f} className="flex gap-2">
+                        <span className="text-highlight">✓</span> {f}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+
+                <Link
+                  href={`/cloud-vps/${plan.slug}`}
+                  className={`mt-8 block rounded-xl py-3 text-center text-sm font-semibold transition ${
+                    featured
+                      ? "bg-highlight text-primary hover:bg-highlight/90"
+                      : "border border-white/15 bg-white/5 text-white hover:border-highlight/40 hover:text-highlight"
+                  }`}
+                >
+                  Get Started
+                </Link>
+              </article>
+            );
+          })}
         </div>
 
-        <p className="mt-6 text-[12px] text-[#5c6573]">
-          All plans include IPv4, IPv6, snapshots, cloud firewall and metrics.
-          Managed Service and daily backups available as add-ons at checkout.
+        <p className="mt-10 text-center text-[12px] text-gray-500">
+          Snapshots, cloud firewall and metrics included. Managed Service and
+          daily backups available at configure.
         </p>
       </section>
     </main>
