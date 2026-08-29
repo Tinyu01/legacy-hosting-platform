@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getCatalog, formatZAR } from "../../../lib/catalog";
 import { ConfigureVpsForm } from "../../../components/ConfigureVpsForm";
+import { PageHeader } from "../../../components/PageHeader";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -47,84 +48,89 @@ export default async function ConfigureVpsPage({ params }: Props) {
         (a.compatibleCategories ?? []).includes("cloud-vps")
     ) ?? [];
 
-  const res = plan.resources as {
-    vcpu?: number;
-    ramGB?: number;
-    storage?: { sizeGB: number; type: string };
-    traffic?: { includedTB: number };
-  } | undefined;
+  const res = plan.resources as
+    | {
+        vcpu?: number;
+        ramGB?: number;
+        storage?: { sizeGB: number; type: string };
+        traffic?: { includedTB: number };
+      }
+    | undefined;
 
   const deployment = plan.deployment as
     | { instant?: boolean; estimatedMinutes?: number }
     | undefined;
 
+  const from =
+    plan.pricing.monthly != null ? `${formatZAR(plan.pricing.monthly)}/mo` : "—";
+
   return (
     <main>
-      <section className="border-b border-border">
-        <div className="lh-container py-10">
-          <p className="lh-section-label">Configure</p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-            {plan.name}
-          </h1>
-          <p className="mt-2 max-w-2xl text-[14px] text-ink-muted">
-            {plan.description}
-          </p>
-          <dl className="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-[13px] text-ink-muted">
-            <div>
-              <span className="text-ink-dim">vCPU </span>
-              <span className="font-medium text-ink">{res?.vcpu ?? "—"}</span>
-            </div>
-            <div>
-              <span className="text-ink-dim">RAM </span>
-              <span className="font-medium text-ink">
-                {res?.ramGB ? `${res.ramGB} GB` : "—"}
-              </span>
-            </div>
-            <div>
-              <span className="text-ink-dim">Storage </span>
-              <span className="font-medium text-ink">
-                {res?.storage
-                  ? `${res.storage.sizeGB} GB ${res.storage.type}`
-                  : "—"}
-              </span>
-            </div>
-            <div>
-              <span className="text-ink-dim">From </span>
-              <span className="font-medium text-ink">
-                {plan.pricing.monthly
-                  ? `${formatZAR(plan.pricing.monthly)}/mo`
-                  : "—"}
-              </span>
-            </div>
-          </dl>
-        </div>
-      </section>
+      <PageHeader
+        badge="Configure"
+        title={plan.name}
+        highlight="setup"
+        description={plan.description}
+        breadcrumb={[
+          { label: "Cloud VPS", href: "/cloud-vps" },
+          { label: plan.name },
+        ]}
+        cta={{ text: "Choose options", href: "#configure" }}
+        ctaSecondary={{ text: "All plans", href: "/cloud-vps" }}
+      >
+        <dl className="mx-auto mt-6 flex max-w-2xl flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/60">
+          <div>
+            <span className="text-white/40">vCPU </span>
+            <span className="font-medium text-white">{res?.vcpu ?? "—"}</span>
+          </div>
+          <div>
+            <span className="text-white/40">RAM </span>
+            <span className="font-medium text-white">
+              {res?.ramGB ? `${res.ramGB} GB` : "—"}
+            </span>
+          </div>
+          <div>
+            <span className="text-white/40">Storage </span>
+            <span className="font-medium text-white">
+              {res?.storage
+                ? `${res.storage.sizeGB} GB ${res.storage.type}`
+                : "—"}
+            </span>
+          </div>
+          <div>
+            <span className="text-white/40">From </span>
+            <span className="font-medium text-highlight">{from}</span>
+          </div>
+        </dl>
+      </PageHeader>
 
-      <section className="lh-container py-10">
-        <ConfigureVpsForm
-          productSlug={plan.slug}
-          productName={plan.name}
-          monthly={plan.pricing.monthly ?? 0}
-          annual={plan.pricing.annual}
-          locations={locations.map((l) => ({
-            id: l.id,
-            name: l.name,
-            country: l.country ?? "",
-          }))}
-          operatingSystems={operatingSystems.map((os) => ({
-            id: os.id,
-            name: os.name,
-            version: os.version,
-          }))}
-          addons={addons.map((a) => ({
-            id: a.id,
-            name: a.name,
-            description: a.description,
-            monthly: a.pricing.monthly ?? 0,
-          }))}
-          instant={deployment?.instant}
-          estimatedMinutes={deployment?.estimatedMinutes}
-        />
+      <section id="configure" className="py-12 md:py-16">
+        <div className="lh-container">
+          <ConfigureVpsForm
+            productSlug={plan.slug}
+            productName={plan.name}
+            monthly={plan.pricing.monthly ?? 0}
+            annual={plan.pricing.annual}
+            locations={locations.map((l) => ({
+              id: l.id,
+              name: l.name,
+              country: l.country ?? "",
+            }))}
+            operatingSystems={operatingSystems.map((os) => ({
+              id: os.id,
+              name: os.name,
+              version: os.version,
+            }))}
+            addons={addons.map((a) => ({
+              id: a.id,
+              name: a.name,
+              description: (a as { description?: string }).description,
+              monthly: a.pricing.monthly ?? 0,
+            }))}
+            instant={deployment?.instant}
+            estimatedMinutes={deployment?.estimatedMinutes}
+          />
+        </div>
       </section>
     </main>
   );
