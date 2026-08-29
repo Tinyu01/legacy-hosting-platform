@@ -26,12 +26,6 @@ export default function WebHostingPage() {
         breadcrumb={[{ label: "Web Hosting" }]}
         cta={{ text: "Compare plans", href: "#plans" }}
         ctaSecondary={{ text: "Cloud VPS", href: "/cloud-vps" }}
-        stats={[
-          { value: String(plans.length), label: "Plans" },
-          { value: "SSL", label: "Included" },
-          { value: "NVMe", label: "Storage" },
-          { value: "ZAR", label: "Billing" },
-        ]}
       />
 
       <section
