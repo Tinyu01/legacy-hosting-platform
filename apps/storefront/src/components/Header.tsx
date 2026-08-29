@@ -13,7 +13,7 @@ function ChevronDown() {
   );
 }
 
-/** HostAfrica-style: services stay visible in the bar, not buried under "More". */
+/** HostAfrica-style: services stay visible in the bar. */
 const primaryServices = [
   { href: "/domains", label: "Domains" },
   { href: "/web-hosting", label: "Web Hosting" },
@@ -25,9 +25,8 @@ const primaryServices = [
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-primary/95 backdrop-blur-md">
-      {/* Utility top bar — SA commercial hosts style */}
       <div className="hidden border-b border-border bg-[#020b19] sm:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-1.5 text-[11px] text-ink-dim sm:px-6 lg:px-8">
+        <div className="lh-container flex items-center justify-between py-1.5 text-[11px] text-ink-dim">
           <div className="flex items-center gap-4">
             <span>Maleng Legacy Group</span>
             <span className="hidden text-ink-dim md:inline">·</span>
@@ -51,7 +50,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-6 lg:px-8">
+      <div className="lh-container flex h-16 items-center justify-between">
         <div className="flex min-w-0 items-center gap-6 lg:gap-8">
           <Link href="/" className="flex shrink-0 items-center gap-2.5">
             <span className="h-7 w-7 rounded-lg bg-gradient-to-br from-highlight to-[#0d8f8e]" />
@@ -60,7 +59,6 @@ export function Header() {
             </span>
           </Link>
 
-          {/* Open service links — HostAfrica pattern */}
           <nav
             className="hidden items-center gap-0.5 lg:flex"
             aria-label="Services"
@@ -75,7 +73,6 @@ export function Header() {
               </Link>
             ))}
 
-            {/* Pricing stays explicit */}
             <Link
               href="/cloud-vps"
               className="rounded-lg px-3 py-2 text-[13px] font-medium text-ink-secondary transition hover:bg-soft hover:text-highlight"
@@ -83,7 +80,6 @@ export function Header() {
               Pricing
             </Link>
 
-            {/* Company only — secondary */}
             <div className="group relative">
               <button
                 type="button"
@@ -141,9 +137,8 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile / tablet — same services, scrollable, never hidden behind "More" */}
       <nav
-        className="flex gap-1.5 overflow-x-auto border-t border-border px-4 py-2.5 lg:hidden"
+        className="flex gap-1.5 overflow-x-auto border-t border-border px-6 py-2.5 lg:hidden"
         aria-label="Services"
       >
         {[...primaryServices, { href: "/cloud-vps", label: "Pricing" }].map(
