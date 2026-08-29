@@ -25,8 +25,9 @@ const primaryServices = [
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-primary/95 backdrop-blur-md">
+      {/* Top bar — Tech: full width + px-6 only */}
       <div className="hidden border-b border-border bg-[#020b19] sm:block">
-        <div className="lh-container flex items-center justify-between py-1.5 text-[11px] text-ink-dim">
+        <div className="lh-shell flex items-center justify-between py-1.5 text-[11px] text-ink-dim">
           <div className="flex items-center gap-4">
             <span>Maleng Legacy Group</span>
             <span className="hidden text-ink-dim md:inline">·</span>
@@ -50,7 +51,8 @@ export function Header() {
         </div>
       </div>
 
-      <div className="lh-container flex h-16 items-center justify-between">
+      {/* Main nav — Tech: mx-auto px-6, no max-width clamp */}
+      <div className="lh-shell flex h-16 items-center justify-between">
         <div className="flex min-w-0 items-center gap-6 lg:gap-8">
           <Link href="/" className="flex shrink-0 items-center gap-2.5">
             <span className="h-7 w-7 rounded-lg bg-gradient-to-br from-highlight to-[#0d8f8e]" />
