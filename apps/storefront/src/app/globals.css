@@ -56,12 +56,24 @@
 
 @layer components {
   /*
-   * Layout container — aligned with
-   * maleng-legacy-group-websites / 14_Maleng_Legacy_Tech_and_Consulting:
-   *   max-w-7xl mx-auto px-6
+   * Commercial wrap — not feather-wide.
+   * Matches Legacy Hosting HTML mock (.wrap { max-width: 1180px; padding: 0 32px })
+   * and Tech side rhythm (px-6 ≈ 24px; use 32px via px-8 on large screens).
    */
   .lh-container {
-    @apply mx-auto w-full max-w-7xl px-6;
+    width: 100%;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;  /* 24px mobile */
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .lh-container {
+      padding-left: 2rem; /* 32px — HTML mock */
+      padding-right: 2rem;
+    }
   }
 
   .lh-btn-primary {
@@ -107,16 +119,16 @@
   }
 
   .lh-card {
-    border-radius: 1rem;
+    border-radius: 0.875rem;
     border: 1px solid var(--border-color);
     background-color: var(--bg-surface);
   }
 
   .lh-card-featured {
-    border-radius: 1rem;
-    border: 1px solid color-mix(in srgb, var(--highlight) 45%, transparent);
-    background-color: var(--bg-surface);
-    box-shadow: 0 16px 40px color-mix(in srgb, var(--highlight) 12%, transparent);
+    border-radius: 0.875rem;
+    border: 1.5px solid color-mix(in srgb, var(--highlight) 55%, transparent);
+    background-color: var(--bg-soft);
+    box-shadow: 0 12px 32px color-mix(in srgb, var(--highlight) 14%, transparent);
   }
 
   .lh-input {
