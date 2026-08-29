@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     template: "%s · Legacy Hosting",
   },
   description:
-    "Register domains, deploy cloud servers and host websites with ZAR billing and South African support. Infrastructure for businesses that need to ship.",
+    "Register domains, deploy cloud servers and host websites with ZAR billing and South African support.",
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en-ZA" className={inter.variable}>
-      <body className="min-h-screen bg-[#0a0c10] font-sans text-[#e8eaed] antialiased">
+      <body className="min-h-screen font-sans text-white antialiased">
         <Header />
         {children}
         <Footer />
