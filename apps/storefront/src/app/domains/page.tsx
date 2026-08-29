@@ -23,12 +23,6 @@ export default function DomainsPage() {
         breadcrumb={[{ label: "Domains" }]}
         cta={{ text: "Search domain", href: "#search" }}
         ctaSecondary={{ text: "Cloud VPS", href: "/cloud-vps" }}
-        stats={[
-          { value: String(domains.length), label: "Extensions" },
-          { value: "ZAR", label: "Billing" },
-          { value: "DNS", label: "Included" },
-          { value: "SAST", label: "Support" },
-        ]}
       />
 
       <section id="search" className="border-b border-white/5 bg-gradient-to-b from-primary to-soft/30">
