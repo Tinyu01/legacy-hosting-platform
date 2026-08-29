@@ -25,12 +25,6 @@ export default function CloudVpsPage() {
         breadcrumb={[{ label: "Cloud VPS" }]}
         cta={{ text: "Compare plans", href: "#plans" }}
         ctaSecondary={{ text: "Search domain", href: "/domains" }}
-        stats={[
-          { value: String(plans.length), label: "Plans" },
-          { value: "Root", label: "Access" },
-          { value: "NVMe", label: "Storage" },
-          { value: "ZAR", label: "Billing" },
-        ]}
       />
 
       <section
