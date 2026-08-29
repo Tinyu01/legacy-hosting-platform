@@ -20,14 +20,19 @@ interface PageHeaderProps {
   breadcrumb?: BreadcrumbItem[];
   cta?: { text: string; href: string };
   ctaSecondary?: { text: string; href: string };
-  /** Optional metric strip under CTAs (like Tech service pages) */
+  /** Optional metric strip under CTAs */
   stats?: PageStat[];
+  /** Override hero photo (defaults to Tech-style earth/infrastructure shot) */
+  backgroundImage?: string;
   children?: ReactNode;
 }
 
+const DEFAULT_HERO_IMAGE =
+  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80";
+
 /**
- * Inner-page hero aligned with tech.malenglegacy.co.za service pages:
- * diamond/grid backdrop, breadcrumb, pill badge, gradient title, dual CTAs, stats.
+ * Inner-page hero aligned with tech.malenglegacy.co.za:
+ * photographic backdrop, tight breadcrumb → title stack, dual CTAs.
  */
 export function PageHeader({
   badge,
@@ -38,26 +43,35 @@ export function PageHeader({
   cta,
   ctaSecondary,
   stats,
+  backgroundImage = DEFAULT_HERO_IMAGE,
   children,
 }: PageHeaderProps) {
   return (
-    <section className="relative overflow-hidden border-b border-white/5 bg-black">
-      {/* Tech diamond / grid pattern */}
+    <section className="relative overflow-hidden border-b border-white/5">
+      {/* Photo background (Tech-style) */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.12]"
+        className="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+        aria-hidden
+      />
+      {/* Readability overlays */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#020b19]/85 via-[#04132a]/90 to-[#04132a]" />
+      <div className="pointer-events-none absolute inset-0 bg-[#04132a]/40" />
+      {/* Subtle diamond grid like Tech */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.14]"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 1px 1px, rgba(20,210,209,0.35) 1px, transparent 0)",
-          backgroundSize: "28px 28px",
+            "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 10 L40 20 L30 30 L20 20 Z' fill='none' stroke='rgba(255,255,255,0.15)' stroke-width='1'/%3E%3Ccircle cx='30' cy='20' r='2' fill='rgba(255,255,255,0.1)'/%3E%3C/svg%3E\")",
+          backgroundRepeat: "repeat",
+          backgroundSize: "60px 60px",
         }}
       />
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-highlight/12 blur-[100px]" />
-      <div className="pointer-events-none absolute bottom-0 right-0 h-[280px] w-[480px] rounded-full bg-accent/10 blur-[90px]" />
 
-      <div className="lh-container relative z-10 py-14 sm:py-20">
+      <div className="lh-container relative z-10 py-8 sm:py-10 md:py-12">
         {breadcrumb.length > 0 && (
-          <nav aria-label="Breadcrumb" className="mb-8">
-            <ol className="flex flex-wrap items-center gap-1.5 text-sm text-white/50">
+          <nav aria-label="Breadcrumb" className="mb-3">
+            <ol className="flex flex-wrap items-center gap-1.5 text-[13px] text-white/55">
               <li>
                 <Link href="/" className="hover:text-highlight">
                   Home
@@ -79,16 +93,16 @@ export function PageHeader({
           </nav>
         )}
 
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto max-w-3xl text-center">
           {badge && (
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur">
-              <span className="text-xs font-bold uppercase tracking-wider text-white/90">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 backdrop-blur-sm">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-white/90">
                 {badge}
               </span>
             </div>
           )}
 
-          <h1 className="text-3xl font-bold leading-[1.15] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="text-2xl font-bold leading-[1.2] tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[2.75rem]">
             {title}{" "}
             {highlight && (
               <span className="bg-gradient-to-r from-highlight via-accent to-highlight bg-clip-text text-transparent">
@@ -98,7 +112,7 @@ export function PageHeader({
           </h1>
 
           {description && (
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-gray-300 sm:text-lg">
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-gray-300 sm:text-[15px]">
               {description}
             </p>
           )}
@@ -106,11 +120,11 @@ export function PageHeader({
           {children}
 
           {(cta || ctaSecondary) && (
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <div className="mt-5 flex flex-wrap justify-center gap-2.5">
               {cta && (
                 <Link
                   href={cta.href}
-                  className="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-highlight to-accent px-6 py-3 text-sm font-semibold text-white transition hover:scale-105 active:scale-95"
+                  className="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-highlight to-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:scale-[1.02] active:scale-95"
                 >
                   {cta.text}
                   <span className="transition group-hover:translate-x-0.5">→</span>
@@ -119,7 +133,7 @@ export function PageHeader({
               {ctaSecondary && (
                 <Link
                   href={ctaSecondary.href}
-                  className="rounded-lg border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
+                  className="rounded-lg border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
                 >
                   {ctaSecondary.text}
                 </Link>
@@ -128,18 +142,16 @@ export function PageHeader({
           )}
 
           {stats && stats.length > 0 && (
-            <div className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="mx-auto mt-8 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
               {stats.map((s) => (
                 <div
                   key={s.label}
-                  className="rounded-xl border border-white/10 bg-white/5 px-3 py-4 backdrop-blur"
+                  className="rounded-xl border border-white/10 bg-white/5 px-3 py-3 backdrop-blur"
                 >
-                  <div className="text-xl font-bold text-white tabular-nums sm:text-2xl">
+                  <div className="text-lg font-bold text-white tabular-nums sm:text-xl">
                     {s.value}
                   </div>
-                  <div className="mt-1 text-[11px] text-white/50 sm:text-xs">
-                    {s.label}
-                  </div>
+                  <div className="mt-0.5 text-[11px] text-white/50">{s.label}</div>
                 </div>
               ))}
             </div>
