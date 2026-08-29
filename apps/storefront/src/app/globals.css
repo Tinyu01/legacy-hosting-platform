@@ -3,20 +3,54 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Dark (default) */
+    --bg-primary: #04132a;
+    --bg-surface: #071224;
+    --bg-soft: #0d1b34;
+    --bg-raised: #122346;
+    --text-primary: #f5f7fa;
+    --text-secondary: #c7cedb;
+    --text-muted: #8b97ab;
+    --text-dim: #5f7089;
+    --border-color: #1c2c47;
+    --border-strong: #26374f;
+    --highlight: #14d2d1;
+    --accent: #f4b41a;
+    --gold: #d4af37;
+  }
+
+  html.light {
+    --bg-primary: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-soft: #f1f5f9;
+    --bg-raised: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #1e293b;
+    --text-muted: #475569;
+    --text-dim: #64748b;
+    --border-color: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --highlight: #0d9488;
+    --accent: #d97706;
+    --gold: #b45309;
+  }
+
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    color: #ffffff;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     font-family: var(--font-inter), Inter, system-ui, sans-serif;
-    background: radial-gradient(ellipse at top, #0d1b34 0%, #04132a 55%, #020810 100%);
+    transition: background-color 0.25s ease, color 0.2s ease;
   }
 
   ::selection {
-    background: rgba(20, 210, 209, 0.25);
-    color: #fff;
+    background: color-mix(in srgb, var(--highlight) 30%, transparent);
+    color: var(--text-primary);
   }
 }
 
@@ -29,76 +63,86 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 0.5rem;
-    background-color: #14d2d1;
+    border-radius: 0.75rem;
+    background-color: var(--highlight);
     padding: 0.625rem 1.25rem;
     font-size: 0.875rem;
-    font-weight: 600;
-    color: #04132a;
-    transition: background-color 0.15s ease;
+    font-weight: 700;
+    color: #04241f;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--highlight) 20%, transparent);
   }
 
   .lh-btn-primary:hover {
-    background-color: rgba(20, 210, 209, 0.9);
+    filter: brightness(1.05);
+  }
+
+  .lh-btn-primary:active {
+    transform: scale(0.98);
   }
 
   .lh-btn-secondary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-strong);
+    background-color: transparent;
     padding: 0.625rem 1.25rem;
     font-size: 0.875rem;
     font-weight: 600;
-    color: #ffffff;
-    transition: border-color 0.15s ease, background-color 0.15s ease;
+    color: var(--text-secondary);
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
   }
 
   .lh-btn-secondary:hover {
-    border-color: rgba(20, 210, 209, 0.5);
-    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--highlight);
+    color: var(--highlight);
+    background-color: color-mix(in srgb, var(--highlight) 8%, transparent);
   }
 
   .lh-card {
     border-radius: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: linear-gradient(to bottom right, #0d1b34, #071224, #071224);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
   }
 
   .lh-card-featured {
     border-radius: 1rem;
-    border: 1px solid rgba(20, 210, 209, 0.4);
-    background: linear-gradient(to bottom right, #0d1b34, #071224);
-    box-shadow: 0 20px 40px rgba(20, 210, 209, 0.1);
+    border: 1px solid color-mix(in srgb, var(--highlight) 45%, transparent);
+    background-color: var(--bg-surface);
+    box-shadow: 0 16px 40px color-mix(in srgb, var(--highlight) 12%, transparent);
   }
 
   .lh-input {
     width: 100%;
-    border-radius: 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background-color: rgba(7, 18, 36, 0.8);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
     padding: 0.625rem 1rem;
     font-size: 0.875rem;
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .lh-input::placeholder {
-    color: #6b7280;
+    color: var(--text-dim);
   }
 
   .lh-input:focus {
-    border-color: #14d2d1;
+    border-color: var(--highlight);
     outline: none;
-    box-shadow: 0 0 0 1px rgba(20, 210, 209, 0.5);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--highlight) 40%, transparent);
   }
 
   .lh-section-label {
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: #14d2d1;
+    color: var(--highlight);
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-highlight to-accent bg-clip-text text-transparent;
   }
 }
