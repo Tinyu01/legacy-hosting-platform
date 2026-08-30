@@ -599,6 +599,98 @@
         "metrics": true
       },
       "status": "active"
+    },
+    {
+      "id": "professional-mail",
+      "category": "email",
+      "type": "email",
+      "name": "Professional Mail",
+      "slug": "professional-mail",
+      "description": "Business email on your domain. Webmail, mobile sync and spam protection for individuals and small teams.",
+      "marketing": {
+        "label": "Essential",
+        "displayOrder": 1
+      },
+      "pricing": {
+        "currency": "ZAR",
+        "monthly": 29,
+        "annual": 290
+      },
+      "billing": {
+        "cycle": ["monthly", "annual"],
+        "autoRenew": true,
+        "engine": "fossbilling",
+        "mapping": {
+          "productType": "email",
+          "externalProductId": "LEGACY-MAIL-PRO"
+        }
+      },
+      "resources": {
+        "mailboxes": 5,
+        "storageGBPerMailbox": 10
+      },
+      "features": [
+        "Custom domain addresses",
+        "Webmail and PWA",
+        "IMAP / POP3 / SMTP",
+        "CalDAV calendar & tasks",
+        "Spam and phishing filters",
+        "Mobile sync",
+        "Self-migration tool",
+        "10 GB storage per mailbox"
+      ],
+      "providerStrategy": {
+        "type": "router",
+        "eligibleProviders": ["hostafrica"]
+      },
+      "status": "active"
+    },
+    {
+      "id": "business-email",
+      "category": "email",
+      "type": "email",
+      "name": "Business Email",
+      "slug": "business-email",
+      "description": "Full-featured business email for growing teams — collaboration, more storage and admin controls.",
+      "marketing": {
+        "label": "Teams",
+        "badge": "Popular",
+        "featured": true,
+        "displayOrder": 2
+      },
+      "pricing": {
+        "currency": "ZAR",
+        "monthly": 59,
+        "annual": 590
+      },
+      "billing": {
+        "cycle": ["monthly", "annual"],
+        "autoRenew": true,
+        "engine": "fossbilling",
+        "mapping": {
+          "productType": "email",
+          "externalProductId": "LEGACY-MAIL-BIZ"
+        }
+      },
+      "resources": {
+        "mailboxes": 25,
+        "storageGBPerMailbox": 25
+      },
+      "features": [
+        "Everything in Professional",
+        "Shared calendars and contacts",
+        "Aliases and distribution lists",
+        "Email undelete",
+        "Admin controls",
+        "Priority support",
+        "25 GB storage per mailbox",
+        "Document viewer"
+      ],
+      "providerStrategy": {
+        "type": "router",
+        "eligibleProviders": ["hostafrica"]
+      },
+      "status": "active"
     }
   ],
 

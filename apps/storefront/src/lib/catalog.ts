@@ -57,6 +57,18 @@ export function getActiveWebHostingProducts(): Product[] {
     );
 }
 
+export function getActiveEmailProducts(): Product[] {
+  return getCatalog()
+    .products.filter((p) => p.category === "email" && p.status === "active")
+    .sort(
+      (a, b) =>
+        ((a.marketing as { displayOrder?: number } | undefined)?.displayOrder ??
+          99) -
+        ((b.marketing as { displayOrder?: number } | undefined)?.displayOrder ??
+          99)
+    );
+}
+
 export function getProductBySlug(slug: string): Product | undefined {
   return getCatalog().products.find(
     (p) => p.slug === slug && p.status === "active"
