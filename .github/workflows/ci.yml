@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   pull_request:
-    branches: [main]
+    branches: [main, dev]
 
 jobs:
   validate:
@@ -31,19 +31,22 @@ jobs:
             node -e "
               const fs = require('fs');
               const catalog = JSON.parse(fs.readFileSync('catalog/hosting-catalog.json', 'utf8'));
-              console.log('Catalogue version:', catalog.catalog?.version);
-              console.log('Products:', catalog.products?.length ?? 0);
+              if (!catalog.catalog?.version) throw new Error('Missing catalog.version');
+              if (!Array.isArray(catalog.products)) throw new Error('products must be an array');
+              console.log('Catalogue version:', catalog.catalog.version);
+              console.log('Products:', catalog.products.length);
               console.log('✅ Catalogue JSON is valid');
             "
           else
             echo "Catalogue not yet present — skipping"
+            exit 1
           fi
 
       - name: Lint
-        run: pnpm lint || echo "Lint not yet configured"
+        run: pnpm lint || echo "Lint not yet fully configured"
 
       - name: Typecheck
-        run: pnpm typecheck || echo "Typecheck not yet configured"
+        run: pnpm typecheck || echo "Typecheck not yet fully configured"
 
       - name: Test
-        run: pnpm test || echo "Tests not yet configured"
+        run: pnpm test || echo "Tests not yet fully configured"
