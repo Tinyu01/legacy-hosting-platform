@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import type { Product } from "@legacy-hosting/types";
 import {
   formatZAR,
@@ -8,6 +12,13 @@ import {
 } from "../lib/catalog";
 import { VpsPlanCard } from "../components/VpsPlanCard";
 import { HostingPlanCard } from "../components/HostingPlanCard";
+import {
+  Globe,
+  HardDrive,
+  Cloud,
+  Shield,
+  Lock,
+} from "lucide-react";
 
 // Managed VPS isn't its own catalogue line yet — it's the cheapest VPS plan
 // plus a flat management premium. Once `getActiveManagedVpsProducts()` (or
@@ -92,6 +103,9 @@ function hostingResourceRows(plans: Product[]) {
 }
 
 export default function HomePage() {
+  const router = useRouter();
+  const [domainSearch, setDomainSearch] = useState("");
+
   const domains = getActiveDomainProducts();
   const vpsPlans = getActiveVpsProducts();
   const hosting = getActiveWebHostingProducts();
@@ -103,9 +117,18 @@ export default function HomePage() {
     ? formatZAR(cheapestVps.pricing.monthly + MANAGED_VPS_MONTHLY_PREMIUM)
     : "R599";
 
+  // CRITICAL FIX: Handle domain search form submission with query param
+  // ensures /domains page receives the search query and auto-triggers lookup
+  const handleDomainSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (domainSearch.trim()) {
+      router.push(`/domains?q=${encodeURIComponent(domainSearch.trim())}`);
+    }
+  };
+
   const productLines = [
     {
-      icon: "🌐",
+      icon: Globe,
       title: "Domains",
       body: ".co.za, .com and more",
       from: coza?.pricing.registration
@@ -115,7 +138,7 @@ export default function HomePage() {
       href: "/domains",
     },
     {
-      icon: "💾",
+      icon: HardDrive,
       title: "Web Hosting",
       body: "NVMe storage, free SSL, daily backups",
       from: cheapestHost?.pricing.monthly
@@ -125,7 +148,7 @@ export default function HomePage() {
       href: "/web-hosting",
     },
     {
-      icon: "☁️",
+      icon: Cloud,
       title: "Cloud VPS",
       body: "Root access, deployed in ~60 seconds",
       from: cheapestVps?.pricing.monthly
@@ -135,7 +158,7 @@ export default function HomePage() {
       href: "/cloud-vps",
     },
     {
-      icon: "🛡️",
+      icon: Shield,
       title: "Managed VPS",
       body: "We patch, monitor and secure it",
       from: managedVpsFrom,
@@ -153,7 +176,7 @@ export default function HomePage() {
       {/* Calm, single-focus hero: one glow, one dominant action (domain
           search), one clear secondary path (Cloud VPS). Proof-strip stats
           folded into the subtitle so the fold stays short. */}
-      <section className="relative flex min-h-[76vh] w-full flex-col overflow-hidden bg-black">
+      <section className="relative flex min-h-[82vh] w-full flex-col overflow-hidden bg-black">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.08]"
           style={{
@@ -169,7 +192,7 @@ export default function HomePage() {
             South African hosting, billed in rand
           </div>
 
-          <h1 className="max-w-2xl text-4xl font-bold leading-[1.12] tracking-tight text-white sm:text-5xl md:text-[3.4rem]">
+          <h1 className="max-w-4xl text-4xl font-bold leading-[1.12] tracking-tight text-white sm:text-5xl md:text-[3.4rem]">
             Domains, hosting and{" "}
             <span className="bg-gradient-to-r from-highlight to-accent bg-clip-text text-transparent">
               cloud servers
@@ -177,19 +200,21 @@ export default function HomePage() {
             , done properly
           </h1>
 
-          <p className="mx-auto mt-5 max-w-lg text-base text-gray-300 sm:text-lg">
+          <p className="mx-auto mt-5 max-w-2xl text-base text-gray-300 sm:text-lg">
             Clear ZAR pricing, VAT shown before you pay, 99.9% uptime, and
             servers deployed in about 60 seconds.
           </p>
 
-          {/* Primary action */}
+          {/* Primary action — FIXED: onSubmit handler with router.push to ensure query param */}
           <form
-            action="/domains"
+            onSubmit={handleDomainSearch}
             className="mx-auto mt-10 flex w-full max-w-xl items-center gap-2 rounded-xl border border-white/15 bg-white/5 py-1.5 pl-4 pr-1.5 transition focus-within:border-highlight/50"
           >
             <input
               type="text"
               name="q"
+              value={domainSearch}
+              onChange={(e) => setDomainSearch(e.target.value)}
               placeholder="Search a domain, e.g. yourbusiness.co.za"
               className="h-11 flex-1 border-0 bg-transparent text-sm text-white outline-none placeholder:text-white/40"
             />
@@ -229,12 +254,32 @@ export default function HomePage() {
           >
             Configure a Cloud VPS
           </Link>
+
+          {/* Proof strip — concrete, not marketing adjectives */}
+          <div className="mt-16 grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
+            {[
+              { n: "99.9%", l: "Uptime SLA" },
+              { n: "~60s", l: "VPS deploy time" },
+              { n: "7 days", l: "Cooling-off period" },
+              { n: "24/7", l: "Portal access" },
+            ].map((s) => (
+              <div
+                key={s.l}
+                className="rounded-xl border border-white/10 bg-white/5 px-4 py-4"
+              >
+                <div className="text-2xl font-bold text-white tabular-nums">
+                  {s.n}
+                </div>
+                <div className="mt-1 text-xs text-white/50">{s.l}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ===== PRODUCT LINES ===== */}
       {/* Dense, buyable tiles: price is a pill up top, one line of value
-          copy, one line of next step. No paragraph. */}
+          copy, one line of next step. No paragraph. FIXED: Using lucide-react icons */}
       <section className="bg-gradient-to-b from-primary via-primary/95 to-soft py-20 md:py-24">
         <div className="lh-container">
           <div className="mb-12 max-w-2xl">
@@ -250,33 +295,36 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {productLines.map((c) => (
-              <Link
-                key={c.title}
-                href={c.href}
-                className="group flex flex-col rounded-2xl border border-white/10 bg-surface p-5 transition-colors duration-200 hover:border-highlight/40"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-2.5">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-lg">
-                      {c.icon}
+            {productLines.map((c) => {
+              const IconComponent = c.icon;
+              return (
+                <Link
+                  key={c.title}
+                  href={c.href}
+                  className="group flex flex-col rounded-2xl border border-white/10 bg-surface p-5 transition-colors duration-200 hover:border-highlight/40"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5">
+                        <IconComponent size={18} className="text-gray-300" />
+                      </span>
+                      <h3 className="text-base font-bold text-white transition group-hover:text-highlight">
+                        {c.title}
+                      </h3>
+                    </div>
+                    <span className="shrink-0 rounded-full border border-highlight/30 bg-highlight/10 px-2.5 py-1 text-xs font-bold text-highlight">
+                      {c.from}
+                      {c.unit}
                     </span>
-                    <h3 className="text-base font-bold text-white transition group-hover:text-highlight">
-                      {c.title}
-                    </h3>
                   </div>
-                  <span className="shrink-0 rounded-full border border-highlight/30 bg-highlight/10 px-2.5 py-1 text-xs font-bold text-highlight">
-                    {c.from}
-                    {c.unit}
+                  <p className="mt-3 text-sm text-gray-400">{c.body}</p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-highlight opacity-80 transition group-hover:gap-1.5 group-hover:opacity-100">
+                    Get started
+                    <span aria-hidden>→</span>
                   </span>
-                </div>
-                <p className="mt-3 text-sm text-gray-400">{c.body}</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-highlight opacity-80 transition group-hover:gap-1.5 group-hover:opacity-100">
-                  Get started
-                  <span aria-hidden>→</span>
-                </span>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -295,7 +343,7 @@ export default function HomePage() {
             </h2>
             <p className="max-w-md text-lg text-gray-300">
               Domains, hosting and servers in a single dashboard — manage
-              DNS, watch usage, and reinstall in a click. Available 24/7.
+              DNS, watch usage, and reinstall in a click.
             </p>
           </div>
 
@@ -410,7 +458,8 @@ export default function HomePage() {
               <table className="w-full min-w-[560px] border-collapse text-sm">
                 <thead>
                   <tr className="border-b border-white/10">
-                    <th className="px-5 py-3 text-left font-medium text-gray-500">
+                    {/* FIXED: Sticky first column for mobile scrolling */}
+                    <th className="sticky left-0 bg-surface/90 px-5 py-3 text-left font-medium text-gray-500 z-10">
                       Spec
                     </th>
                     {vpsPlans.map((plan) => (
@@ -426,7 +475,10 @@ export default function HomePage() {
                 <tbody>
                   {vpsRows.map((row) => (
                     <tr key={row.label} className="border-b border-white/5 last:border-0">
-                      <td className="px-5 py-3 text-gray-500">{row.label}</td>
+                      {/* FIXED: Sticky first column for mobile scrolling */}
+                      <td className="sticky left-0 bg-surface/90 px-5 py-3 text-gray-500 z-10">
+                        {row.label}
+                      </td>
                       {row.cells.map((cell, i) => (
                         <td key={i} className="px-5 py-3 text-gray-300">
                           {cell}
@@ -467,7 +519,8 @@ export default function HomePage() {
               <table className="w-full min-w-[480px] border-collapse text-sm">
                 <thead>
                   <tr className="border-b border-white/10">
-                    <th className="px-5 py-3 text-left font-medium text-gray-500">
+                    {/* FIXED: Sticky first column for mobile scrolling */}
+                    <th className="sticky left-0 bg-surface/90 px-5 py-3 text-left font-medium text-gray-500 z-10">
                       Spec
                     </th>
                     {hosting.map((plan) => (
@@ -483,7 +536,10 @@ export default function HomePage() {
                 <tbody>
                   {hostingRows.map((row) => (
                     <tr key={row.label} className="border-b border-white/5 last:border-0">
-                      <td className="px-5 py-3 text-gray-500">{row.label}</td>
+                      {/* FIXED: Sticky first column for mobile scrolling */}
+                      <td className="sticky left-0 bg-surface/90 px-5 py-3 text-gray-500 z-10">
+                        {row.label}
+                      </td>
                       {row.cells.map((cell, i) => (
                         <td key={i} className="px-5 py-3 text-gray-300">
                           {cell}
@@ -501,7 +557,8 @@ export default function HomePage() {
       {/* ===== SECURITY & RELIABILITY ===== */}
       {/* Only claims traceable to product copy already established in this
           project — see chat notes. Swap in real DDoS / retention details
-          once confirmed, rather than leaving generic marketing language. */}
+          once confirmed, rather than leaving generic marketing language.
+          FIXED: Using lucide-react icons instead of emojis */}
       <section className="border-t border-white/5 py-20 md:py-24">
         <div className="lh-container">
           <div className="mb-10 max-w-xl">
@@ -515,30 +572,33 @@ export default function HomePage() {
           <div className="grid gap-5 sm:grid-cols-3">
             {[
               {
-                icon: "🔒",
+                icon: Lock,
                 t: "Free SSL",
                 b: "Included on every Web Hosting plan — every connection encrypted by default.",
               },
               {
-                icon: "💾",
+                icon: HardDrive,
                 t: "Daily backups",
                 b: "Included on Web Hosting plans, so a bad update doesn't cost you the site.",
               },
               {
-                icon: "🛡️",
+                icon: Shield,
                 t: "Isolated by design",
                 b: "Every Cloud VPS runs on its own KVM virtual machine — never shared account space.",
               },
-            ].map((f) => (
-              <div
-                key={f.t}
-                className="rounded-2xl border border-white/10 bg-surface p-6"
-              >
-                <span className="text-2xl">{f.icon}</span>
-                <h3 className="mt-4 text-base font-bold text-white">{f.t}</h3>
-                <p className="mt-1.5 text-sm text-gray-400">{f.b}</p>
-              </div>
-            ))}
+            ].map((f) => {
+              const IconComponent = f.icon;
+              return (
+                <div
+                  key={f.t}
+                  className="rounded-2xl border border-white/10 bg-surface p-6"
+                >
+                  <IconComponent size={24} className="text-gray-300" />
+                  <h3 className="mt-4 text-base font-bold text-white">{f.t}</h3>
+                  <p className="mt-1.5 text-sm text-gray-400">{f.b}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
