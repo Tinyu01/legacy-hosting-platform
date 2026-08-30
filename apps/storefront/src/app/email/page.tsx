@@ -81,116 +81,28 @@ const FAQ = [
 
 export default function EmailPage() {
   const plans = getActiveEmailProducts();
-  const fromPrice = plans[0]?.pricing.monthly ?? 29;
+  const fromPrice = plans[0]?.pricing.monthly
+    ? formatZAR(plans[0].pricing.monthly)
+    : "R29";
 
   return (
     <main>
-      {/* —— Hero: HostAfrica-style split with big price callout —— */}
-      <section className="relative overflow-hidden border-b border-white/5">
-        <div
-          className="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80)",
-          }}
-          aria-hidden
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#020b19]/85 via-[#04132a]/92 to-[#04132a]" />
-        <div className="pointer-events-none absolute inset-0 bg-[#04132a]/35" />
+      <PageHeader
+        badge="Professional Email"
+        title="Business email"
+        highlight="on your domain"
+        description={`Custom addresses, webmail, calendars and mobile sync — from ${fromPrice}/mo. Spam protection, ZAR billing and South African support. No free-provider branding.`}
+        breadcrumb={[{ label: "Email" }]}
+        cta={{ text: "View plans", href: "#plans" }}
+        ctaSecondary={{ text: "Register domain", href: "/domains" }}
+      />
 
-        <div className="lh-container relative z-10 py-8 sm:py-10 md:py-12">
-          <nav aria-label="Breadcrumb" className="mb-4">
-            <ol className="flex flex-wrap items-center gap-1.5 text-[13px] text-white/55">
-              <li>
-                <Link href="/" className="hover:text-highlight">
-                  Home
-                </Link>
-              </li>
-              <li className="flex items-center gap-1.5">
-                <span className="text-white/30">›</span>
-                <span className="text-highlight/90">Email</span>
-              </li>
-            </ol>
-          </nav>
-
-          <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
-            <div>
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 backdrop-blur-sm">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-white/90">
-                  Professional Email
-                </span>
-              </div>
-              <h1 className="text-2xl font-bold leading-[1.15] tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[2.6rem]">
-                Email that is secure, intelligent, and{" "}
-                <span className="bg-gradient-to-r from-highlight via-accent to-highlight bg-clip-text text-transparent">
-                  effortless to use
-                </span>
-              </h1>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-gray-300 sm:text-[15px]">
-                Custom business addresses on your domain, plus calendars, tasks
-                and mobile sync — protected with modern spam filters and backed
-                by South African support. ZAR billing. No free-provider branding.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2.5">
-                <a
-                  href="#plans"
-                  className="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-highlight to-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:scale-[1.02] active:scale-95"
-                >
-                  View plans
-                  <span className="transition group-hover:translate-x-0.5">→</span>
-                </a>
-                <Link
-                  href="/domains"
-                  className="rounded-lg border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/10"
-                >
-                  Register domain
-                </Link>
-              </div>
-            </div>
-
-            {/* Big price card */}
-            <div className="rounded-2xl border border-white/15 bg-gradient-to-b from-white/10 to-white/[0.03] p-6 shadow-2xl backdrop-blur-md sm:p-7">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-white/50">
-                Email Hosting
-              </p>
-              <p className="mt-1 text-sm text-gray-300">from</p>
-              <p className="mt-1 flex items-baseline gap-1.5">
-                <span className="text-4xl font-bold tabular-nums tracking-tight text-white sm:text-5xl">
-                  {formatZAR(fromPrice)}
-                </span>
-                <span className="text-sm text-gray-400">/mo</span>
-              </p>
-              <p className="mt-2 text-xs text-white/45">
-                VAT-inclusive display · 14-day cooling-off
-              </p>
-              <ul className="mt-5 space-y-2.5 text-sm text-gray-200">
-                {[
-                  "Custom @yourdomain addresses",
-                  "Webmail, IMAP and mobile sync",
-                  "Spam & phishing protection",
-                  "Works with any domain",
-                ].map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span className="mt-0.5 text-highlight">✓</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="#plans"
-                className="mt-6 flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-highlight to-accent px-4 py-3 text-sm font-semibold text-white transition hover:scale-[1.01]"
-              >
-                Choose a plan
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Trust strip */}
-      <div className="border-b border-white/5 bg-surface/40">
-        <div className="lh-container flex flex-wrap items-center justify-center gap-x-8 gap-y-2 py-3.5 text-[13px] text-gray-400">
-          <span className="font-medium text-white/70">ZAR pricing</span>
+      {/* Trust strip — same rhythm as pricing jump links */}
+      <div className="border-b border-white/5 bg-surface/30">
+        <div className="lh-container flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-3 text-sm text-gray-400">
+          <span className="font-medium text-white/70">From {fromPrice}/mo</span>
+          <span className="hidden text-white/20 sm:inline">·</span>
+          <span>ZAR pricing</span>
           <span className="hidden text-white/20 sm:inline">·</span>
           <span>South African support</span>
           <span className="hidden text-white/20 sm:inline">·</span>
@@ -200,19 +112,25 @@ export default function EmailPage() {
         </div>
       </div>
 
-      {/* Plans */}
-      <section id="plans" className="scroll-mt-28 py-14 md:py-20">
+      {/* Plans — matches Web Hosting section structure */}
+      <section
+        id="plans"
+        className="border-b border-white/5 bg-gradient-to-b from-primary via-primary/95 to-soft/20 py-16 md:py-24"
+      >
         <div className="lh-container">
-          <div className="mb-10 text-center">
-            <span className="lh-section-label">Service packages</span>
-            <h2 className="mt-2 text-2xl font-bold text-white md:text-3xl">
-              Plans tailored to{" "}
-              <span className="gradient-text">your team</span>
+          <div className="mb-12 text-center">
+            <span className="mb-3 inline-block rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-sm font-bold text-accent">
+              Plans
+            </span>
+            <h2 className="text-3xl font-bold text-white md:text-4xl">
+              Choose your{" "}
+              <span className="bg-gradient-to-r from-highlight to-accent bg-clip-text text-transparent">
+                mailbox
+              </span>
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-sm text-gray-400">
-              Whether you are a solo founder or a growing company — pick the
-              package that fits. Prices from the catalogue; checkout wires
-              through FOSSBilling next.
+            <p className="mx-auto mt-3 max-w-lg text-gray-400">
+              Solo founder or growing team — pick the package that fits. Prices
+              from the catalogue.
             </p>
           </div>
 
@@ -230,31 +148,24 @@ export default function EmailPage() {
                   key={plan.id}
                   className={`relative flex flex-col rounded-2xl border p-7 ${
                     featured
-                      ? "border-highlight/45 bg-gradient-to-b from-highlight/10 to-surface shadow-lg shadow-highlight/10"
+                      ? "border-highlight/40 bg-gradient-to-b from-highlight/10 to-surface"
                       : "border-white/10 bg-surface/50"
                   }`}
                 >
                   {badge && (
-                    <span className="absolute -top-3 left-6 rounded-full bg-accent px-3 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                    <span className="absolute -top-3 left-6 rounded-full bg-accent px-3 py-0.5 text-[10px] font-bold uppercase text-white">
                       {badge}
                     </span>
                   )}
                   <h3 className="text-lg font-bold text-white">{plan.name}</h3>
-                  <p className="mt-1.5 text-sm text-gray-400">
-                    {plan.description}
-                  </p>
+                  <p className="mt-2 text-sm text-gray-400">{plan.description}</p>
                   <p className="mt-5">
-                    <span className="text-[11px] font-medium uppercase tracking-wider text-white/40">
-                      From
+                    <span className="text-3xl font-bold tabular-nums text-white">
+                      {plan.pricing.monthly
+                        ? formatZAR(plan.pricing.monthly)
+                        : "—"}
                     </span>
-                    <span className="mt-0.5 flex items-baseline gap-1">
-                      <span className="text-3xl font-bold tabular-nums text-white">
-                        {plan.pricing.monthly
-                          ? formatZAR(plan.pricing.monthly)
-                          : "—"}
-                      </span>
-                      <span className="text-sm text-gray-400">/mo</span>
-                    </span>
+                    <span className="text-sm text-gray-400">/mo</span>
                     {plan.pricing.annual != null && (
                       <span className="mt-0.5 block text-xs text-white/40">
                         or {formatZAR(plan.pricing.annual)}/yr
@@ -262,7 +173,7 @@ export default function EmailPage() {
                     )}
                   </p>
 
-                  <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-semibold text-white/60">
+                  <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-white/60">
                     {r?.mailboxes != null && (
                       <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">
                         {r.mailboxes} mailboxes
@@ -278,19 +189,15 @@ export default function EmailPage() {
                   <ul className="mt-6 flex-1 space-y-2.5 text-sm text-gray-300">
                     {(plan.features ?? []).map((f) => (
                       <li key={f} className="flex gap-2">
-                        <span className="mt-0.5 shrink-0 text-highlight">✓</span>
-                        <span>{f}</span>
+                        <span className="text-highlight">✓</span>
+                        {f}
                       </li>
                     ))}
                   </ul>
 
                   <Link
                     href="/domains"
-                    className={`mt-8 inline-flex justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition ${
-                      featured
-                        ? "bg-gradient-to-r from-highlight to-accent text-white hover:scale-[1.02]"
-                        : "border border-white/15 bg-white/5 text-white hover:bg-white/10"
-                    }`}
+                    className="mt-8 inline-flex justify-center rounded-lg bg-gradient-to-r from-highlight to-accent px-4 py-2.5 text-sm font-semibold text-white"
                   >
                     Choose {plan.name}
                   </Link>
@@ -298,32 +205,82 @@ export default function EmailPage() {
               );
             })}
           </div>
+
+          {/* Context cards — same pattern as Web Hosting bottom row */}
+          <div className="mt-14 grid gap-6 border-t border-white/10 pt-12 sm:grid-cols-3">
+            {[
+              {
+                t: "With or without hosting",
+                b: "Use standalone email, or take the mailboxes included on Web Hosting plans. Same account either way.",
+              },
+              {
+                t: "Bring your domain",
+                b: "Register with us or point MX records from a domain you already own. Setup is straightforward.",
+              },
+              {
+                t: "Need a site too?",
+                b: (
+                  <>
+                    Pair with{" "}
+                    <Link
+                      href="/web-hosting"
+                      className="font-semibold text-highlight hover:underline"
+                    >
+                      Web Hosting
+                    </Link>{" "}
+                    or{" "}
+                    <Link
+                      href="/cloud-vps"
+                      className="font-semibold text-highlight hover:underline"
+                    >
+                      Cloud VPS
+                    </Link>
+                    .
+                  </>
+                ),
+              },
+            ].map((block) => (
+              <div
+                key={block.t}
+                className="rounded-2xl border border-white/10 bg-surface/50 p-6"
+              >
+                <h3 className="text-base font-semibold text-white">{block.t}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-400">
+                  {block.b}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Why + feature grid */}
-      <section className="border-t border-white/5 bg-surface/30 py-14 md:py-16">
+      {/* Features */}
+      <section className="py-16 md:py-24">
         <div className="lh-container">
-          <div className="mb-10 max-w-2xl">
-            <span className="lh-section-label">Why Legacy Email</span>
-            <h2 className="mt-2 text-2xl font-bold text-white md:text-3xl">
-              More than just an inbox
+          <div className="mb-10 text-center md:text-left">
+            <span className="mb-3 inline-block rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-sm font-bold text-accent">
+              Features
+            </span>
+            <h2 className="text-3xl font-bold text-white md:text-4xl">
+              More than just an{" "}
+              <span className="bg-gradient-to-r from-highlight to-accent bg-clip-text text-transparent">
+                inbox
+              </span>
             </h2>
-            <p className="mt-3 text-sm text-gray-400">
-              Look professional with a branded address, stay productive with
-              calendars and tasks, and keep threats out — without enterprise
-              complexity or foreign billing surprises.
+            <p className="mt-2 max-w-xl text-gray-400">
+              Branded addresses, calendars and tasks, and modern protection —
+              without enterprise complexity.
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURE_GRID.map((f) => (
               <div
                 key={f.title}
-                className="rounded-xl border border-white/10 bg-primary/40 p-5"
+                className="rounded-2xl border border-white/10 bg-surface/50 p-6"
               >
-                <h3 className="text-sm font-bold text-white">{f.title}</h3>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-gray-400">
+                <h3 className="text-base font-semibold text-white">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-400">
                   {f.desc}
                 </p>
               </div>
@@ -333,14 +290,20 @@ export default function EmailPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-14 md:py-16">
+      <section className="border-t border-white/5 bg-gradient-to-b from-primary to-soft/20 py-16 md:py-24">
         <div className="lh-container">
-          <div className="mb-8 text-center">
-            <span className="lh-section-label">FAQ</span>
-            <h2 className="mt-2 text-2xl font-bold text-white md:text-3xl">
-              Common questions
+          <div className="mb-10 text-center">
+            <span className="mb-3 inline-block rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-sm font-bold text-accent">
+              FAQ
+            </span>
+            <h2 className="text-3xl font-bold text-white md:text-4xl">
+              Common{" "}
+              <span className="bg-gradient-to-r from-highlight to-accent bg-clip-text text-transparent">
+                questions
+              </span>
             </h2>
           </div>
+
           <div className="mx-auto max-w-3xl divide-y divide-white/10 rounded-2xl border border-white/10 bg-surface/40">
             {FAQ.map((item) => (
               <details
@@ -360,35 +323,6 @@ export default function EmailPage() {
                 </p>
               </details>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Bottom CTA band */}
-      <section className="border-t border-white/5 pb-4">
-        <div className="lh-container">
-          <div className="rounded-2xl border border-white/10 bg-gradient-to-r from-highlight/10 via-surface to-accent/10 px-6 py-10 text-center md:px-12">
-            <h2 className="text-xl font-bold text-white md:text-2xl">
-              Start from {formatZAR(fromPrice)}/mo
-            </h2>
-            <p className="mx-auto mt-2 max-w-md text-sm text-gray-400">
-              Pair email with a domain for a complete professional presence.
-              Same account, ZAR invoices, local support.
-            </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <a
-                href="#plans"
-                className="inline-flex rounded-lg bg-gradient-to-r from-highlight to-accent px-6 py-2.5 text-sm font-semibold text-white"
-              >
-                View plans
-              </a>
-              <Link
-                href="/domains"
-                className="rounded-lg border border-white/20 bg-white/5 px-6 py-2.5 text-sm font-semibold text-white"
-              >
-                Register a domain
-              </Link>
-            </div>
           </div>
         </div>
       </section>
